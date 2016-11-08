@@ -130,3 +130,7 @@ div.post-author-category > a.author {
 .turn-page a {
     color: rgb(173, 173, 173);
 }
+
+.summary img{
+    max-width: 100%
+}
