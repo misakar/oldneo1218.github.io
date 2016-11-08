@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    
+    
+    <!-- google site -->
+    <meta name="google-site-verification" content="BazmSJ55LY7H3RD6ttelAsE8PmOPjhkFnDdIjFMCiJE" />
+    <title>neo1218死宅 - POST</title>
+    <link rel="stylesheet" type="text/css" href=/static/css/base_site.css>
+    <link rel="stylesheet" type="text/css" href=/static/css/index.css>
+    <link rel="stylesheet" type="text/css" href=/static/css/post.css>
+    <link rel="stylesheet" type="text/css" href=/static/css/self_card.css>
+    <link rel="stylesheet" type="text/css" href=/static/css/logo/github.css>
+    <link rel="stylesheet" type="text/css" href=/static/css/logo/twitter.css>
+    <link rel="stylesheet" type="text/css" href=/static/css/logo/facebook.css>
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css">
+</head>
+<body>
+<header>
+    <div class="top-z-container">
+        <!--blur-->
+        <div class="blur-top-image"></div>
+        <div id="top-bar">
+            <nav class="left-box">
+                <ul>
+                    <li>
+                        <a href=/>neo1218死宅</a> - Pythoner 死宅到底 不想说话 木犀万岁!
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <div id="top-image"></div>
+    <nav class="nav-wrapper">
+        <ul class="category-list">
+            <li>
+                <a href=/>
+                    <span>首页</span>
+                    <div class="menu-icon-wrapper">
+                        <span class="menu-icon icon-no-bg-color fa fa-home"></span>
+                    </div>
+                </a>
+            </li>
+            
+                <li onmouseover="show_menu(this)" onmouseout="hide_menu(this)">
+                    <a href=/tag/Web/>
+                        <div class="menu-icon-wrapper">
+                            <span class="menu-icon">7</span>
+                        </div>
+                        Web
+                    </a>
+                    <ul class="drop-down" align="center">
+                        <span>Web开发</span>
+                    </ul>
+                </li>
+            
+                <li onmouseover="show_menu(this)" onmouseout="hide_menu(this)">
+                    <a href=/tag/Life/>
+                        <div class="menu-icon-wrapper">
+                            <span class="menu-icon">2</span>
+                        </div>
+                        Life
+                    </a>
+                    <ul class="drop-down" align="center">
+                        <span>生活随笔</span>
+                    </ul>
+                </li>
+            
+                <li onmouseover="show_menu(this)" onmouseout="hide_menu(this)">
+                    <a href=/tag/Python/>
+                        <div class="menu-icon-wrapper">
+                            <span class="menu-icon">14</span>
+                        </div>
+                        Python
+                    </a>
+                    <ul class="drop-down" align="center">
+                        <span>Python学习</span>
+                    </ul>
+                </li>
+            
+                <li onmouseover="show_menu(this)" onmouseout="hide_menu(this)">
+                    <a href=/tag/Other/>
+                        <div class="menu-icon-wrapper">
+                            <span class="menu-icon">3</span>
+                        </div>
+                        Other
+                    </a>
+                    <ul class="drop-down" align="center">
+                        <span>其他</span>
+                    </ul>
+                </li>
+            
+                <li onmouseover="show_menu(this)" onmouseout="hide_menu(this)">
+                    <a href=/tag/DIY/>
+                        <div class="menu-icon-wrapper">
+                            <span class="menu-icon">4</span>
+                        </div>
+                        DIY
+                    </a>
+                    <ul class="drop-down" align="center">
+                        <span>个人项目</span>
+                    </ul>
+                </li>
+            
+                <li onmouseover="show_menu(this)" onmouseout="hide_menu(this)">
+                    <a href=/tag/OS/>
+                        <div class="menu-icon-wrapper">
+                            <span class="menu-icon">3</span>
+                        </div>
+                        OS
+                    </a>
+                    <ul class="drop-down" align="center">
+                        <span>操作系统学习</span>
+                    </ul>
+                </li>
+            
+                <li onmouseover="show_menu(this)" onmouseout="hide_menu(this)">
+                    <a href=/tag/Algo/>
+                        <div class="menu-icon-wrapper">
+                            <span class="menu-icon">7</span>
+                        </div>
+                        Algo
+                    </a>
+                    <ul class="drop-down" align="center">
+                        <span>算法学习</span>
+                    </ul>
+                </li>
+            
+            <li>
+                <a href=/about/>
+                    <span>关于</span>
+                    <div class="menu-icon-wrapper">
+                        <span class="menu-icon icon-no-bg-color fa fa-info"></span>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main>
+    <div id="main">
+        
+<div class="post-body-wrapper">
+    <div class="main_post">
+        <h1>Python进程管理工具supervisor</h1>
+        <h3>2016-06-19 10:51:20</h3>
+        <div class="body">
+            <p><img alt="supervisor" src="http://image.cache.storm.mg/styles/smg-800x533-fp/s3/media/image/2015/06/09/20150609-050739_U2590_M65943_4ef2.jpg?itok=gMhXqFWT" /></p>
+<h2>进程管理</h2>
+<p>进程管理工具用于管理进程, 包括</p>
+<ol>
+<li>启动进程(包括所有child process)</li>
+<li>关闭进程(包括所有child process), 相比于传统kill 4、5个进程方便太多</li>
+<li>重启进程</li>
+<li>查看进程状态(终端输出、图形界面)</li>
+<li>进程设置(开机自启动、故障重启、run as daemon:)</li>
+</ol>
+<h2>Supervisor</h2>
+<p>Supervisor是一个用Python编写的进程管理工具, 个人总结了它的优点:</p>
+<h3>1. 安装方便</h3>
+<p><code>pip install supervisor</code></p>
+<h3>2. 兼容一些比较老的系统</h3>
+<p>学校的服务器跑的还是centos5, supervisor可以正常工作; 另一个先进的进程管理工具
+<a href="https://github.com/Unitech/pm2">pm2</a>就悲催了.</p>
+<h3>3. 配置简单</h3>
+<p>1.生成配置文件<br/>
+<code>echo_supervisord_conf &gt; /etc/supervisord.conf</code></p>
+<p>2.修改配置文件<br/></p>
+<div class="codehilite"><pre><span></span><span class="k">[include]</span>
+<span class="na">files</span> <span class="o">=</span> <span class="s">/etc/supervisord.d/*.ini</span>
+</pre></div>
+
+
+<p>3.创建进程配置<br/>
+在/etc/supervisord.d/目录下创建进程配置即可(ini格式), 给个样例配置:</p>
+<div class="codehilite"><pre><span></span><span class="k">[program:FlaskApp]</span>
+<span class="na">command</span><span class="o">=</span><span class="s">gunicorn -w 4 -b 127.0.0.1:5000 wsgi:app</span>
+<span class="na">directory</span><span class="o">=</span><span class="s">/FlaskApp/</span>
+<span class="na">startsecs</span><span class="o">=</span><span class="s">0</span>
+<span class="na">stopwaitsecs</span><span class="o">=</span><span class="s">0</span>
+<span class="na">autostart</span><span class="o">=</span><span class="s">true</span>
+<span class="na">autorestart</span><span class="o">=</span><span class="s">true</span>
+<span class="na">stdout_logfile</span><span class="o">=</span><span class="s">/tmp/FlaskApp.log</span>
+<span class="na">stderr_logfile</span><span class="o">=</span><span class="s">/tmp/FlaskApp.err</span>
+</pre></div>
+
+
+<h3>4.简洁的API<br/></h3>
+<p>supervisor的命令分为两大部分: supervisord, supervisorctl <br/></p>
+<p>supervisord用于启动supervisor进程</p>
+<div class="codehilite"><pre><span></span>$ supervisord
+$ supervisord -c /path/to/config
+</pre></div>
+
+
+<p>supervisorctl用于管理supervisor管理的进程(及ini配置的program)</p>
+<div class="codehilite"><pre><span></span>$ supervisorctl start FlaskApp
+$ supervisorctl stop FlaskApp
+$ supervisorctl status FlaskApp <span class="c1"># 查看状态</span>
+</pre></div>
+
+
+<p>supervisorctl还有一个重要的作用: 重读supervisord配置(重启supervisor)</p>
+<div class="codehilite"><pre><span></span>$ supervisorctl reload
+</pre></div>
+
+
+<h3>5.权限保障</h3>
+<p>supervisor还提供了权限控制<br/>
+<img alt="conf" src="http://7xj431.com1.z0.glb.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-05-23%20%E4%B8%8B%E5%8D%883.48.24.png" /></p>
+<h3>6.朴素的图形界面</h3>
+<p>其实这个不算优点吧, 相比于pm2的界面, supervisord走的是复古极简风格.<br/>
+<img alt="supervisord" src="https://camo.githubusercontent.com/6a8e802c894bcd2578683e6d2dc3fe95f252cdad/68747470733a2f2f7261772e6769746875622e636f6d2f6d6c617a61726f762f73757065727669736f72642d6d6f6e69746f722f6d61737465722f73757065727669736f72642d6d6f6e69746f722e706e67" />
+<img alt="pm2" src="https://camo.githubusercontent.com/7857adbf765b2742e77551b5733e5be1584772dd/68747470733a2f2f6b65796d6574726963732e696f2f6173736574732f696d616765732f6170706c69636174696f6e2d64656d6f2e706e67" />
+<br/>
+个人觉得如果加上服务器cpu、网络监控就更好了.</p>
+<h2>意外收获</h2>
+<p>在使用supervisor的时候还有意外收获:) <br/>
+这几天经常使用celery进行任务管理、定时执行, 但是每次下线(ssh), celery进程就会自动关闭, 如何使
+celery作为后台daemon进程运行呢?<br/>
+<a href="http://docs.celeryproject.org/en/latest/tutorials/daemonizing.html">官方文档给的方法</a>, 反正我配了半天没弄好. <br/>
+使用supervisord, 只需要配置autorestart和autostart为True即可. 样例配置:</p>
+<div class="codehilite"><pre><span></span><span class="k">[program:celeryd]</span>
+<span class="na">command</span><span class="o">=</span><span class="s">celery worker -A app.celery --loglevel=info</span>
+<span class="na">stdout_logfile</span><span class="o">=</span><span class="s">/tmp/celeryd.log</span>
+<span class="na">stderr_logfile</span><span class="o">=</span><span class="s">/tmp/celeryd.err</span>
+<span class="na">autostart</span><span class="o">=</span><span class="s">true</span>
+<span class="na">autorestart</span><span class="o">=</span><span class="s">true</span>
+<span class="na">startsecs</span><span class="o">=</span><span class="s">10</span>
+<span class="na">stopwaitsecs</span><span class="o">=</span><span class="s">600</span>
+</pre></div>
+
+
+<p><br/>
+进程管理是后端自动化中的重要一环, 也是粒度比较细的一环, 如何在docker容器中使用进程管理工具呢?</p>
+        </div>
+    </div>
+    <div id="disqus_thread" style="padding: 50px"></div>
+    <script>
+    /**
+    * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+    */
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL; // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    
+    s.src = '//neo1218flask.disqus.com/embed.js';
+    
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+
+    </div>
+</main>
+<footer>
+    <div id="foot">
+        
+            <div class="footer">
+                <span>
+                    Powered by:
+                    <a href="https://github.com/neo1218/railgun/" target="_blank">railgun</a>
+                </span>
+                <br>
+            </div>
+        
+    </div>
+</footer>
+<div id="to-top">
+    <a href="" onclick="scroll_to_top(0.9); return false;">
+        <!--span class="fa fa-rocket"></span-->
+        <img src="http://7xj431.com1.z0.glb.clouddn.com/tt.gif"
+            style="height: 160px; width: 160px"></img>
+    </a>
+</div>
+</body>
+    <script src=/static/js/base_site.js> </script>
+    <script src=/static/js/post.js> </script>
+</html>

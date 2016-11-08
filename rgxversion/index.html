@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    
+    
+    <!-- google site -->
+    <meta name="google-site-verification" content="BazmSJ55LY7H3RD6ttelAsE8PmOPjhkFnDdIjFMCiJE" />
+    <title>neo1218死宅 - POST</title>
+    <link rel="stylesheet" type="text/css" href=/static/css/base_site.css>
+    <link rel="stylesheet" type="text/css" href=/static/css/index.css>
+    <link rel="stylesheet" type="text/css" href=/static/css/post.css>
+    <link rel="stylesheet" type="text/css" href=/static/css/self_card.css>
+    <link rel="stylesheet" type="text/css" href=/static/css/logo/github.css>
+    <link rel="stylesheet" type="text/css" href=/static/css/logo/twitter.css>
+    <link rel="stylesheet" type="text/css" href=/static/css/logo/facebook.css>
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css">
+</head>
+<body>
+<header>
+    <div class="top-z-container">
+        <!--blur-->
+        <div class="blur-top-image"></div>
+        <div id="top-bar">
+            <nav class="left-box">
+                <ul>
+                    <li>
+                        <a href=/>neo1218死宅</a> - Pythoner 死宅到底 不想说话 木犀万岁!
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <div id="top-image"></div>
+    <nav class="nav-wrapper">
+        <ul class="category-list">
+            <li>
+                <a href=/>
+                    <span>首页</span>
+                    <div class="menu-icon-wrapper">
+                        <span class="menu-icon icon-no-bg-color fa fa-home"></span>
+                    </div>
+                </a>
+            </li>
+            
+                <li onmouseover="show_menu(this)" onmouseout="hide_menu(this)">
+                    <a href=/tag/Web/>
+                        <div class="menu-icon-wrapper">
+                            <span class="menu-icon">7</span>
+                        </div>
+                        Web
+                    </a>
+                    <ul class="drop-down" align="center">
+                        <span>Web开发</span>
+                    </ul>
+                </li>
+            
+                <li onmouseover="show_menu(this)" onmouseout="hide_menu(this)">
+                    <a href=/tag/Life/>
+                        <div class="menu-icon-wrapper">
+                            <span class="menu-icon">2</span>
+                        </div>
+                        Life
+                    </a>
+                    <ul class="drop-down" align="center">
+                        <span>生活随笔</span>
+                    </ul>
+                </li>
+            
+                <li onmouseover="show_menu(this)" onmouseout="hide_menu(this)">
+                    <a href=/tag/Python/>
+                        <div class="menu-icon-wrapper">
+                            <span class="menu-icon">14</span>
+                        </div>
+                        Python
+                    </a>
+                    <ul class="drop-down" align="center">
+                        <span>Python学习</span>
+                    </ul>
+                </li>
+            
+                <li onmouseover="show_menu(this)" onmouseout="hide_menu(this)">
+                    <a href=/tag/Other/>
+                        <div class="menu-icon-wrapper">
+                            <span class="menu-icon">3</span>
+                        </div>
+                        Other
+                    </a>
+                    <ul class="drop-down" align="center">
+                        <span>其他</span>
+                    </ul>
+                </li>
+            
+                <li onmouseover="show_menu(this)" onmouseout="hide_menu(this)">
+                    <a href=/tag/DIY/>
+                        <div class="menu-icon-wrapper">
+                            <span class="menu-icon">4</span>
+                        </div>
+                        DIY
+                    </a>
+                    <ul class="drop-down" align="center">
+                        <span>个人项目</span>
+                    </ul>
+                </li>
+            
+                <li onmouseover="show_menu(this)" onmouseout="hide_menu(this)">
+                    <a href=/tag/OS/>
+                        <div class="menu-icon-wrapper">
+                            <span class="menu-icon">3</span>
+                        </div>
+                        OS
+                    </a>
+                    <ul class="drop-down" align="center">
+                        <span>操作系统学习</span>
+                    </ul>
+                </li>
+            
+                <li onmouseover="show_menu(this)" onmouseout="hide_menu(this)">
+                    <a href=/tag/Algo/>
+                        <div class="menu-icon-wrapper">
+                            <span class="menu-icon">7</span>
+                        </div>
+                        Algo
+                    </a>
+                    <ul class="drop-down" align="center">
+                        <span>算法学习</span>
+                    </ul>
+                </li>
+            
+            <li>
+                <a href=/about/>
+                    <span>关于</span>
+                    <div class="menu-icon-wrapper">
+                        <span class="menu-icon icon-no-bg-color fa fa-info"></span>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main>
+    <div id="main">
+        
+<div class="post-body-wrapper">
+    <div class="main_post">
+        <h1>flask源码阅读笔记~正则自动化</h1>
+        <h3>2016-07-19 23:55:16</h3>
+        <div class="body">
+            <h1>flask中正则表达式的应用</h1>
+<p>说到正则表达式, 大家第一印象, 这货是用来进行字符串工作的: 匹配、查找、替换...
+然而正则的灵活以及对字符串的处理能力, 可以帮助我们进行一些繁琐的工作, 比如:
+更换版本号.</p>
+<h2>使用正则表达式自动更换版本号</h2>
+<p>还记得我开发mana的时候, 每发布一个新的版本, 都要先去setup.py中修改版本号,
+然后再去<code>mana version</code>命令中再次修改版本号输出, 很是麻烦. 而flask源码中,
+只在<code>__init__.py</code>作为版本号的源,
+其他地方(比如setup.py)则使用正则从源自动更新版本号, 所以每次更新版本,
+只要更新一处就行了!</p>
+<h2>version正则表达式</h2>
+<ul>
+<li><strong>源</strong>: flask,<code>__init__.py</code>:  <strong>version</strong> = '0.11.2-dev'</li>
+<li><strong>正则</strong>: flask, <code>setup.py</code>: _version_re = re.compile(r'<strong>version</strong>\s+=\s+(.*)')</li>
+</ul>
+<p>解释一下这个正则表达式<code>'__version__\s+=\s+(.*)'</code>, 其实很简单:
+<code>__version__</code>匹配<code>__version__</code>, <code>\s+</code>匹配=前的空格, <code>=</code>匹配=,
+<code>\s+</code>匹配等号右侧的空格, <code>(.*)</code>匹配版本号也就是<code>'0.11.2-dev'</code>. <br/></p>
+<p>然后从<code>__init__.py</code>中读取源, 就可以匹配()中的版本号了</p>
+<div class="codehilite"><pre><span></span>with open(&#39;flask/__init__.py&#39;, &#39;rb&#39;) as f:
+    version = str(ast.literal_eval(_version_re.search(
+        f.read().decode(&#39;utf-8&#39;)).group(1)))
+</pre></div>
+
+
+<p>这里使用<code>_version_re.search</code>搜索匹配, 并返回group(1).
+search时需要把utf-8编码的文件转化为unicode. <br/>
+ast.literal_eval的功能和eval类似,
+不过会先判断被计算的内容是不是合法的python类型, 所以<code>str(ast.literal_eval(version))</code>
+的作用就是先检查version的类型是否合法, 然后转为python str字符串的形式.
+可以看出flask不打算迁移python3:)</p>
+        </div>
+    </div>
+    <div id="disqus_thread" style="padding: 50px"></div>
+    <script>
+    /**
+    * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+    */
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL; // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    
+    s.src = '//neo1218flask.disqus.com/embed.js';
+    
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+
+    </div>
+</main>
+<footer>
+    <div id="foot">
+        
+            <div class="footer">
+                <span>
+                    Powered by:
+                    <a href="https://github.com/neo1218/railgun/" target="_blank">railgun</a>
+                </span>
+                <br>
+            </div>
+        
+    </div>
+</footer>
+<div id="to-top">
+    <a href="" onclick="scroll_to_top(0.9); return false;">
+        <!--span class="fa fa-rocket"></span-->
+        <img src="http://7xj431.com1.z0.glb.clouddn.com/tt.gif"
+            style="height: 160px; width: 160px"></img>
+    </a>
+</div>
+</body>
+    <script src=/static/js/base_site.js> </script>
+    <script src=/static/js/post.js> </script>
+</html>

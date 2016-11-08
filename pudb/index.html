@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    
+    
+    <!-- google site -->
+    <meta name="google-site-verification" content="BazmSJ55LY7H3RD6ttelAsE8PmOPjhkFnDdIjFMCiJE" />
+    <title>neo1218死宅 - POST</title>
+    <link rel="stylesheet" type="text/css" href=/static/css/base_site.css>
+    <link rel="stylesheet" type="text/css" href=/static/css/index.css>
+    <link rel="stylesheet" type="text/css" href=/static/css/post.css>
+    <link rel="stylesheet" type="text/css" href=/static/css/self_card.css>
+    <link rel="stylesheet" type="text/css" href=/static/css/logo/github.css>
+    <link rel="stylesheet" type="text/css" href=/static/css/logo/twitter.css>
+    <link rel="stylesheet" type="text/css" href=/static/css/logo/facebook.css>
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css">
+</head>
+<body>
+<header>
+    <div class="top-z-container">
+        <!--blur-->
+        <div class="blur-top-image"></div>
+        <div id="top-bar">
+            <nav class="left-box">
+                <ul>
+                    <li>
+                        <a href=/>neo1218死宅</a> - Pythoner 死宅到底 不想说话 木犀万岁!
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <div id="top-image"></div>
+    <nav class="nav-wrapper">
+        <ul class="category-list">
+            <li>
+                <a href=/>
+                    <span>首页</span>
+                    <div class="menu-icon-wrapper">
+                        <span class="menu-icon icon-no-bg-color fa fa-home"></span>
+                    </div>
+                </a>
+            </li>
+            
+                <li onmouseover="show_menu(this)" onmouseout="hide_menu(this)">
+                    <a href=/tag/Web/>
+                        <div class="menu-icon-wrapper">
+                            <span class="menu-icon">7</span>
+                        </div>
+                        Web
+                    </a>
+                    <ul class="drop-down" align="center">
+                        <span>Web开发</span>
+                    </ul>
+                </li>
+            
+                <li onmouseover="show_menu(this)" onmouseout="hide_menu(this)">
+                    <a href=/tag/Life/>
+                        <div class="menu-icon-wrapper">
+                            <span class="menu-icon">2</span>
+                        </div>
+                        Life
+                    </a>
+                    <ul class="drop-down" align="center">
+                        <span>生活随笔</span>
+                    </ul>
+                </li>
+            
+                <li onmouseover="show_menu(this)" onmouseout="hide_menu(this)">
+                    <a href=/tag/Python/>
+                        <div class="menu-icon-wrapper">
+                            <span class="menu-icon">14</span>
+                        </div>
+                        Python
+                    </a>
+                    <ul class="drop-down" align="center">
+                        <span>Python学习</span>
+                    </ul>
+                </li>
+            
+                <li onmouseover="show_menu(this)" onmouseout="hide_menu(this)">
+                    <a href=/tag/Other/>
+                        <div class="menu-icon-wrapper">
+                            <span class="menu-icon">3</span>
+                        </div>
+                        Other
+                    </a>
+                    <ul class="drop-down" align="center">
+                        <span>其他</span>
+                    </ul>
+                </li>
+            
+                <li onmouseover="show_menu(this)" onmouseout="hide_menu(this)">
+                    <a href=/tag/DIY/>
+                        <div class="menu-icon-wrapper">
+                            <span class="menu-icon">4</span>
+                        </div>
+                        DIY
+                    </a>
+                    <ul class="drop-down" align="center">
+                        <span>个人项目</span>
+                    </ul>
+                </li>
+            
+                <li onmouseover="show_menu(this)" onmouseout="hide_menu(this)">
+                    <a href=/tag/OS/>
+                        <div class="menu-icon-wrapper">
+                            <span class="menu-icon">3</span>
+                        </div>
+                        OS
+                    </a>
+                    <ul class="drop-down" align="center">
+                        <span>操作系统学习</span>
+                    </ul>
+                </li>
+            
+                <li onmouseover="show_menu(this)" onmouseout="hide_menu(this)">
+                    <a href=/tag/Algo/>
+                        <div class="menu-icon-wrapper">
+                            <span class="menu-icon">7</span>
+                        </div>
+                        Algo
+                    </a>
+                    <ul class="drop-down" align="center">
+                        <span>算法学习</span>
+                    </ul>
+                </li>
+            
+            <li>
+                <a href=/about/>
+                    <span>关于</span>
+                    <div class="menu-icon-wrapper">
+                        <span class="menu-icon icon-no-bg-color fa fa-info"></span>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main>
+    <div id="main">
+        
+<div class="post-body-wrapper">
+    <div class="main_post">
+        <h1>使用pudb调试Python程序</h1>
+        <h3>2016-06-19 09:36:13</h3>
+        <div class="body">
+            <p>今天尝试用pudb调试Python程序, 当然我用的很肤浅, 还是在这里做个纪录。</p>
+<h1>1. PUDB</h1>
+<p>GDB ==&gt; PDB ==&gt; PUDB</p>
+<h1>2. 安装PUDB</h1>
+<p><code>pip install pudb</code></p>
+<h1>3. 使用PUDB</h1>
+<p>Python作为动态语言, 调试起来是比较困难的, 简单的调试就是在程序执行过程中不断的print,
+print, print。而pudb提供了图形化界面, 可以设置断点、侧边栏显示调用栈和变量,
+用起来比较方便。其实第一次见到pudb界面时感觉回到了上个世纪haha。<br/>
+<img alt="pudb" src="http://7xj431.com1.z0.glb.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-04-23%20%E4%B8%8B%E5%8D%885.52.04.png" /></p>
+<h2>1. 使用pudb调试</h2>
+<p>在你需要调试的程序中, 加入下面2行代码</p>
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">pudb</span> <span class="kn">import</span> <span class="n">set_trace</span><span class="p">;</span> <span class="n">set_trace</span><span class="p">()</span>
+</pre></div>
+
+
+<p>然后</p>
+<div class="codehilite"><pre><span></span>$ pudb bp.py
+</pre></div>
+
+
+<p>pudb需要打开某些文件, 所以如果出现permission错误需要 <code>sudo pudb bp.py</code><br/></p>
+<h2>2. 基本调试</h2>
+<p>基本调试很简单(我用的比较肤浅...), n就是next, 旁边的Variables实时显示变量变化,
+Stack显示调用栈, 遇到断点停止。如果遇到终端输出则跳转到终端。s则是进入函数内部,
+这是Stack和Variables就会显示函数内部的变量和调用栈的变化。我录了一下屏: <br/>
+<img alt="pudbgif" src="http://7xj431.com1.z0.glb.clouddn.com/pudb.gif" /></p>
+<h1>3. 其他</h1>
+<p>? 就是查看帮助, Ctrl-p可以配置pudb: 是否显示行号, 选择主题, 内置Python解释器的类别...</p>
+        </div>
+    </div>
+    <div id="disqus_thread" style="padding: 50px"></div>
+    <script>
+    /**
+    * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+    */
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL; // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    
+    s.src = '//neo1218flask.disqus.com/embed.js';
+    
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+
+    </div>
+</main>
+<footer>
+    <div id="foot">
+        
+            <div class="footer">
+                <span>
+                    Powered by:
+                    <a href="https://github.com/neo1218/railgun/" target="_blank">railgun</a>
+                </span>
+                <br>
+            </div>
+        
+    </div>
+</footer>
+<div id="to-top">
+    <a href="" onclick="scroll_to_top(0.9); return false;">
+        <!--span class="fa fa-rocket"></span-->
+        <img src="http://7xj431.com1.z0.glb.clouddn.com/tt.gif"
+            style="height: 160px; width: 160px"></img>
+    </a>
+</div>
+</body>
+    <script src=/static/js/base_site.js> </script>
+    <script src=/static/js/post.js> </script>
+</html>

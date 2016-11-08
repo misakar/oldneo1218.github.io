@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    
+    
+    <!-- google site -->
+    <meta name="google-site-verification" content="BazmSJ55LY7H3RD6ttelAsE8PmOPjhkFnDdIjFMCiJE" />
+    <title>neo1218死宅 - POST</title>
+    <link rel="stylesheet" type="text/css" href=/static/css/base_site.css>
+    <link rel="stylesheet" type="text/css" href=/static/css/index.css>
+    <link rel="stylesheet" type="text/css" href=/static/css/post.css>
+    <link rel="stylesheet" type="text/css" href=/static/css/self_card.css>
+    <link rel="stylesheet" type="text/css" href=/static/css/logo/github.css>
+    <link rel="stylesheet" type="text/css" href=/static/css/logo/twitter.css>
+    <link rel="stylesheet" type="text/css" href=/static/css/logo/facebook.css>
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css">
+</head>
+<body>
+<header>
+    <div class="top-z-container">
+        <!--blur-->
+        <div class="blur-top-image"></div>
+        <div id="top-bar">
+            <nav class="left-box">
+                <ul>
+                    <li>
+                        <a href=/>neo1218死宅</a> - Pythoner 死宅到底 不想说话 木犀万岁!
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <div id="top-image"></div>
+    <nav class="nav-wrapper">
+        <ul class="category-list">
+            <li>
+                <a href=/>
+                    <span>首页</span>
+                    <div class="menu-icon-wrapper">
+                        <span class="menu-icon icon-no-bg-color fa fa-home"></span>
+                    </div>
+                </a>
+            </li>
+            
+                <li onmouseover="show_menu(this)" onmouseout="hide_menu(this)">
+                    <a href=/tag/Web/>
+                        <div class="menu-icon-wrapper">
+                            <span class="menu-icon">7</span>
+                        </div>
+                        Web
+                    </a>
+                    <ul class="drop-down" align="center">
+                        <span>Web开发</span>
+                    </ul>
+                </li>
+            
+                <li onmouseover="show_menu(this)" onmouseout="hide_menu(this)">
+                    <a href=/tag/Life/>
+                        <div class="menu-icon-wrapper">
+                            <span class="menu-icon">2</span>
+                        </div>
+                        Life
+                    </a>
+                    <ul class="drop-down" align="center">
+                        <span>生活随笔</span>
+                    </ul>
+                </li>
+            
+                <li onmouseover="show_menu(this)" onmouseout="hide_menu(this)">
+                    <a href=/tag/Python/>
+                        <div class="menu-icon-wrapper">
+                            <span class="menu-icon">14</span>
+                        </div>
+                        Python
+                    </a>
+                    <ul class="drop-down" align="center">
+                        <span>Python学习</span>
+                    </ul>
+                </li>
+            
+                <li onmouseover="show_menu(this)" onmouseout="hide_menu(this)">
+                    <a href=/tag/Other/>
+                        <div class="menu-icon-wrapper">
+                            <span class="menu-icon">3</span>
+                        </div>
+                        Other
+                    </a>
+                    <ul class="drop-down" align="center">
+                        <span>其他</span>
+                    </ul>
+                </li>
+            
+                <li onmouseover="show_menu(this)" onmouseout="hide_menu(this)">
+                    <a href=/tag/DIY/>
+                        <div class="menu-icon-wrapper">
+                            <span class="menu-icon">4</span>
+                        </div>
+                        DIY
+                    </a>
+                    <ul class="drop-down" align="center">
+                        <span>个人项目</span>
+                    </ul>
+                </li>
+            
+                <li onmouseover="show_menu(this)" onmouseout="hide_menu(this)">
+                    <a href=/tag/OS/>
+                        <div class="menu-icon-wrapper">
+                            <span class="menu-icon">3</span>
+                        </div>
+                        OS
+                    </a>
+                    <ul class="drop-down" align="center">
+                        <span>操作系统学习</span>
+                    </ul>
+                </li>
+            
+                <li onmouseover="show_menu(this)" onmouseout="hide_menu(this)">
+                    <a href=/tag/Algo/>
+                        <div class="menu-icon-wrapper">
+                            <span class="menu-icon">7</span>
+                        </div>
+                        Algo
+                    </a>
+                    <ul class="drop-down" align="center">
+                        <span>算法学习</span>
+                    </ul>
+                </li>
+            
+            <li>
+                <a href=/about/>
+                    <span>关于</span>
+                    <div class="menu-icon-wrapper">
+                        <span class="menu-icon icon-no-bg-color fa fa-info"></span>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main>
+    <div id="main">
+        
+<div class="post-body-wrapper">
+    <div class="main_post">
+        <h1>Assembly王国历险记</h1>
+        <h3>2016-06-19 10:01:24</h3>
+        <div class="body">
+            <p><img alt="magic" src="http://7xj431.com1.z0.glb.clouddn.com/images-5.jpeg" /><br/>
+<strong>Welcome to a Magic World !</strong>
+<hr/></p>
+<h2>前记: 如何拿到了神秘世界大门的🔑</h2>
+<p>最近在学习操作系统, 仿照实例编写一个<strong>类linux x86架构32bit</strong>的微型操作系统neox。加载操作系统后(详细过程见<a href="http://neo1218.github.io/computer">这篇文章</a>), 首先需要将kernel加载进内存, 而这个代码需要使用汇编来写。 于是, 我决定进入这个神秘世界一探究竟。下面是我从汇编王国游历归来的一些见闻。<br/>
+<img alt="王国" src="http://7xj431.com1.z0.glb.clouddn.com/images-6.jpeg" /></p>
+<h2>Assembly 王国游记</h2>
+<h3>1. 一个建立在特定架构上的强大王国</h3>
+<p>Assembly王国是一个邦联制国家,
+是基于特定架构的公国组成的分散联盟。这个王国和高级语言国家不同,
+它具有[通灵]的能力, 可以直接与计算机硬件世界沟通, 我曾在一次王国祭祀中,
+亲眼目睹国王用Assembly语言祈求[万神之神CPU]保平安。 <br/>
+[Assembly国家祭祀神殿中供奉的CPU雕像:]<img alt="CPU" src="http://7xj431.com1.z0.glb.clouddn.com/images-7.jpeg" /><br/>
+当然, 每个公国祭祀的神灵也有不同, 比如[x86 32bit公国]祭祀的通用寄存器之神有4位(EAX,
+EBX, ECX, EDX)。这里就不详细解释这个国家的神学了,
+这个王国的神和这个王国一样神秘。</p>
+<h3>2. Assembly王国独特的语言-助记符语法规则</h3>
+<p><img alt="语言" src="http://7xj431.com1.z0.glb.clouddn.com/asm" /><br/>
+图片是我经过一个[vagrant神柱]时拍摄的,
+上面雕刻了这个王国的语言。这个王国的语言是实现强大[通灵]能力的关键,
+原来汇编语言就是[神之世界机器语言]的助记!</p>
+<ol>
+<li>用助记符代替操作码</li>
+<li>用地址符号(Symbol)或标号(Lable)代替地址码</li>
+</ol>
+<p>再借由大祭司们强大的[汇编程序]魔法就可以翻译成机器语言, 从而与硬件神灵们交流!!!
+<br/>
+我想再详细介绍一下[神之通灵汇编语法], 汇编语法由如下几类指令组成:</p>
+<ol>
+<li><strong>数据传送指令</strong><ol>
+<li>通用数据传送指令<ul>
+<li>MOV  =&gt; 传送<ul>
+<li>MOV DST, SRC  =&gt; DST = SRC</li>
+</ul>
+</li>
+<li>PUSH =&gt; 进栈<ul>
+<li>PUSH SRC</li>
+</ul>
+</li>
+<li>POP  =&gt; 出栈<ul>
+<li>POP DST</li>
+</ul>
+</li>
+<li>XCHG =&gt; 交换<ul>
+<li>XCHG OPR1, OPR2 =&gt; (OPR1)&lt;-&gt;(OPR2)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>累加器专用数据传送指令<ul>
+<li>IN   =&gt; 输入<ul>
+<li>IN AL, PORT(byte) =&gt; (AL)&lt;-PORT(byte)</li>
+</ul>
+</li>
+<li>OUT  =&gt; 输出<ul>
+<li>OUT PORT, AL(byte) =&gt; PORT&lt;-(AL)(byte)</li>
+</ul>
+</li>
+<li>XLAT =&gt; 换码<ul>
+<li>XLAT OPR =&gt; 将一种代码转换成另一种代码</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>有效地址送寄存器指令<ul>
+<li>LEA  =&gt; 有效地址送寄存器</li>
+<li>LDS  =&gt; 指针送寄存器和DS寄存器</li>
+<li>LES  =&gt; 指针送寄存器和ES寄存器</li>
+</ul>
+</li>
+<li>标志寄存器传送指令<ul>
+<li>LAHF  =&gt; 标志送AH</li>
+<li>SAHF  =&gt; AH送标志寄存器</li>
+<li>PUSHF =&gt; 标志进栈</li>
+<li>POPF  =&gt; 标志出栈</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><strong>算术指令</strong><ol>
+<li>加法指令<ul>
+<li>ADD  =&gt; 加法<ul>
+<li>ADD DST, SRC =&gt; DST = DST + SRC</li>
+</ul>
+</li>
+<li>ADC  =&gt; 带进位加法<ul>
+<li>ADC DST, SRC =&gt; DST = DST + SRC + Carry (加上进位标志值)</li>
+</ul>
+</li>
+<li>INC  =&gt; 自增(+1)<ul>
+<li>INC OPR =&gt; (OPR) &lt;- (OPR)+1</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>减法指令<ul>
+<li>SUB  =&gt; 减法<ul>
+<li>SUB DST, SRC  =&gt; DST = DST - SRC</li>
+</ul>
+</li>
+<li>SBB  =&gt; 带借位减法<ul>
+<li>SBB DST, SRC  =&gt; DST = DST - SRC - CF(借位)</li>
+</ul>
+</li>
+<li>DEC  =&gt; 自减(-1)<ul>
+<li>DEC OPR</li>
+</ul>
+</li>
+<li>NEG  =&gt; 求补<ul>
+<li>NEG OPR  =&gt; 将操作数按位取反后末尾加一</li>
+</ul>
+</li>
+<li>CMP  =&gt; 比较<ul>
+<li>CMP OPR1, OPR2  =&gt; 执行 OPR1-OPR2 运算, 但只是作为判断标志,
+  不保存结果</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>乘法指令<ul>
+<li>MUL  =&gt; 无符号数乘法</li>
+<li>IMUL =&gt; 带符号数乘法</li>
+</ul>
+</li>
+<li>除法指令<ul>
+<li>DIV  =&gt; 无符号数乘法</li>
+<li>IDIV =&gt; 带符号数乘法</li>
+<li>CBW  =&gt; 字节转化为字</li>
+<li>CWD  =&gt; 字转化为双字</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><strong>逻辑指令</strong><ul>
+<li>AND  =&gt; 逻辑与</li>
+<li>OR   =&gt; 逻辑或</li>
+<li>NOT  =&gt; 逻辑非</li>
+<li>XOR  =&gt; 异或</li>
+<li>TEST(test) =&gt; 测试<ul>
+<li>TEST OPR1, OPR2</li>
+<li>在不改变原有操作数的情况下, 检测某一位或某几位的条件是否满足</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>移位指令</strong></li>
+<li><strong>串处理指令</strong></li>
+<li><strong>控制转移指令</strong><ul>
+<li>JMP 无条件转移指令</li>
+</ul>
+</li>
+<li><strong>中断指令</strong><ul>
+<li>CLI =&gt; 中断标志置0指令</li>
+<li>HLT =&gt; 使机器暂停工作，使处理器CPU处于停机状态，以等待一次外部中断到来，中断结束后，程序继续执行，CPU继续工作。</li>
+</ul>
+</li>
+</ol>
+<p>这[通灵汇编语言]相较于常人的高级语言的确难懂!
+也难怪使用汇编语言的人可以与[神明]交流</p>
+<h3>3. 逛神庙时发现的一个神秘卷轴</h3>
+<p>因为我尝试学习编写的操作系统是[x86 32bit]架构, 所以我此行有2/3的时间在[x86 32bit公国]度过。那段时间正好是公国的祭祀周, 到处都是象征着[万神之神CPU]的图腾
+<img alt="图腾" src="http://7xj431.com1.z0.glb.clouddn.com/images-8.jpeg" /><br/>
+有一次, 经过一个[寄存器神庙]的时候,
+看到一群人围着一个金光闪闪的卷轴在讨论着什么, 于是我便凑了上去。
+原来这个卷轴上写满了Assembly语言奇奇怪怪的符号, 我便把这些符号抄写在了vim上(vim是Assembly王国通用的记载工具类似纸张)。回到家中,
+我拿出vim开始解读(注释部分就是我的解读)</p>
+<div class="codehilite"><pre><span></span><span class="n">global</span> <span class="n">_start</span><span class="p">,</span> <span class="n">_kmain</span>  <span class="p">;</span><span class="o">--</span> <span class="n">global</span> <span class="err">标记着程序的开始</span> <span class="o">--</span>
+<span class="p">;</span> <span class="o">--</span> <span class="err">一系列的全局变量</span> <span class="o">--</span>
+<span class="p">;</span> <span class="o">--</span> <span class="n">ctors</span><span class="p">(</span><span class="err">保存着程序中全局构造函数的指针数组</span><span class="p">)</span>
+<span class="p">;</span> <span class="o">--</span> <span class="n">dtors</span><span class="p">(</span><span class="err">保存着程序中全局析构函数的指针数组</span><span class="p">)</span>
+<span class="k">extern</span> <span class="n">kmain</span><span class="p">,</span> <span class="n">start_ctors</span><span class="p">,</span> <span class="n">end_ctors</span><span class="p">,</span> <span class="n">start_dtors</span><span class="p">,</span> <span class="n">end_dtors</span>
+
+<span class="p">;</span> <span class="o">--</span> <span class="err">宏定义</span> <span class="o">--</span>
+<span class="nf">%define</span> <span class="n">MULTIBOOT_HEADER_MAGIC</span>  <span class="mh">0x1BADB002</span>
+<span class="nf">%define</span> <span class="n">MULTIBOOT_HEADER_FLAGS</span>  <span class="mh">0x00000003</span>  <span class="p">;</span> <span class="o">--</span> <span class="n">flag</span> <span class="o">--</span>
+<span class="nf">%define</span> <span class="n">CHECKSUM</span> <span class="o">-</span><span class="p">(</span><span class="n">MULTIBOOT_HEADER_MAGIC</span> <span class="o">+</span> <span class="n">MULTIBOOT_HEADER_FLAGS</span><span class="p">)</span>
+
+<span class="p">;</span><span class="o">--</span> <span class="n">Entry</span> <span class="n">point</span> <span class="o">--</span>
+<span class="nl">_start</span><span class="p">:</span>
+    <span class="n">jmp</span> <span class="n">start</span>  <span class="p">;</span> <span class="o">--</span> <span class="err">无条件转移到</span><span class="n">_start</span><span class="err">处</span>
+
+<span class="p">;</span><span class="o">--</span> <span class="n">Multiboot</span> <span class="n">header</span> <span class="o">--</span>
+<span class="n">align</span> <span class="mi">4</span>  <span class="p">;</span> <span class="err">调整下面代码段中的指针为</span><span class="mi">2</span><span class="o">^</span><span class="mi">4</span><span class="err">倍数</span><span class="p">,</span> <span class="err">空位自动填充</span><span class="p">,</span>
+         <span class="p">;</span> <span class="err">使得下一条指令出现在能被</span><span class="mi">16</span><span class="err">整除的地址上</span><span class="p">,</span>
+         <span class="p">;</span> <span class="err">对齐可以使</span><span class="n">CPU</span><span class="err">取指令更快</span>
+
+<span class="nl">multiboot_header</span><span class="p">:</span>
+<span class="n">dd</span> <span class="n">MULTIBOOT_HEADER_MAGIC</span>  <span class="p">;</span> <span class="err">声明一个</span><span class="mi">4</span><span class="err">字节</span><span class="p">,</span> <span class="err">并将</span> <span class="n">MULTIBOOT_HEADER_MAGIC</span>
+                           <span class="p">;</span> <span class="err">的值存入其中</span><span class="p">(</span><span class="err">下同</span><span class="p">)</span>
+<span class="n">dd</span> <span class="n">MULTIBOOT_HEADER_FLAGS</span>
+<span class="n">dd</span> <span class="n">CHECKSUM</span>
+<span class="p">;</span><span class="o">--/</span><span class="n">Multiboot</span> <span class="n">header</span> <span class="o">--</span>
+
+<span class="nl">start</span><span class="p">:</span>
+        <span class="n">push</span> <span class="n">ebx</span>  <span class="p">;</span> <span class="err">数据入栈</span><span class="p">(</span><span class="n">ebx</span><span class="err">寄存器</span><span class="p">)</span>
+
+<span class="p">;</span> <span class="o">--</span> <span class="err">开始循环</span> <span class="o">--</span>
+<span class="nl">static_ctors_loop</span><span class="p">:</span>
+   <span class="n">mov</span> <span class="n">ebx</span><span class="p">,</span> <span class="n">start_ctors</span>
+   <span class="n">jmp</span> <span class="p">.</span><span class="n">test</span>
+<span class="p">.</span><span class="nl">body</span><span class="p">:</span>
+   <span class="n">call</span> <span class="p">[</span><span class="n">ebx</span><span class="p">]</span>
+   <span class="n">add</span> <span class="n">ebx</span><span class="p">,</span><span class="mi">4</span>
+<span class="p">.</span><span class="nl">test</span><span class="p">:</span>
+   <span class="n">cmp</span> <span class="n">ebx</span><span class="p">,</span> <span class="n">end_ctors</span>
+   <span class="n">jb</span> <span class="p">.</span><span class="n">body</span>
+
+   <span class="n">call</span> <span class="n">kmain</span>                      <span class="p">;</span> <span class="n">call</span> <span class="n">kernel</span> <span class="n">proper</span>
+
+<span class="nl">static_dtors_loop</span><span class="p">:</span>
+   <span class="n">mov</span> <span class="n">ebx</span><span class="p">,</span> <span class="n">start_dtors</span>
+   <span class="n">jmp</span> <span class="p">.</span><span class="n">test</span>
+<span class="p">.</span><span class="nl">body</span><span class="p">:</span>
+   <span class="n">call</span> <span class="p">[</span><span class="n">ebx</span><span class="p">]</span>
+   <span class="n">add</span> <span class="n">ebx</span><span class="p">,</span><span class="mi">4</span>
+<span class="p">.</span><span class="nl">test</span><span class="p">:</span>
+   <span class="n">cmp</span> <span class="n">ebx</span><span class="p">,</span> <span class="n">end_dtors</span>
+   <span class="n">jb</span> <span class="p">.</span><span class="n">body</span>
+
+        <span class="p">;</span> <span class="err">中断程序</span>
+        <span class="n">cli</span> <span class="p">;</span> <span class="n">stop</span> <span class="n">interrupts</span>
+        <span class="n">hlt</span> <span class="p">;</span> <span class="n">halt</span> <span class="n">the</span> <span class="n">CPU</span>
+</pre></div>
+
+
+<p>原来这个卷轴上的符号是加载强大操作系统内核(call kmain)的汇编! <br/>
+就在我迷迷糊糊, 仿佛读懂的那刹那, 突然狂风大作, 天降真神!!!
+原来是[CPU大神]显灵了!!!<br/>
+<img alt="cpu大神" src="http://7xj431.com1.z0.glb.clouddn.com/cpu" /><br/>
+然后CPU大神微笑着对我说:"你个泼猴"...</p>
+<h2>后记:</h2>
+<p>等我醒来的时候, 我已经回到了家中。(但这不是梦!!
+因为我手上还拿着vim!!)。这次Assembly王国探险的经历让我知道了自然世界的伟大,
+原来计算机的宇宙还有这么多不为我知的角落, 不要停下脚步, 继续出发吧!</p>
+        </div>
+    </div>
+    <div id="disqus_thread" style="padding: 50px"></div>
+    <script>
+    /**
+    * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+    */
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL; // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    
+    s.src = '//neo1218flask.disqus.com/embed.js';
+    
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+
+    </div>
+</main>
+<footer>
+    <div id="foot">
+        
+            <div class="footer">
+                <span>
+                    Powered by:
+                    <a href="https://github.com/neo1218/railgun/" target="_blank">railgun</a>
+                </span>
+                <br>
+            </div>
+        
+    </div>
+</footer>
+<div id="to-top">
+    <a href="" onclick="scroll_to_top(0.9); return false;">
+        <!--span class="fa fa-rocket"></span-->
+        <img src="http://7xj431.com1.z0.glb.clouddn.com/tt.gif"
+            style="height: 160px; width: 160px"></img>
+    </a>
+</div>
+</body>
+    <script src=/static/js/base_site.js> </script>
+    <script src=/static/js/post.js> </script>
+</html>

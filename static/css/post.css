@@ -1,0 +1,39 @@
+.post-body-wrapper {
+    width: 980px;
+    margin: 0 auto;
+    padding-top: 20px;
+    background-color: whitesmoke;
+} 
+
+.main_post {
+    height: auto;
+    width: auto;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.25) 1px 1px 1px;
+}
+
+.main_post > h1{
+    padding-top: 10px;
+    text-align: center;
+    color: black;
+    font-weight: bold;
+}
+
+.main_post > h3{
+    text-align: center;
+    font-family: Monospace, Sans-serif, Serif;
+    border-bottom: 1px dotted rgb(144, 147, 154);
+    padding-bottom: 20px;
+    color: lightblue;
+    font-size: 16px;
+}
+
+.body {
+    padding: 50px;
+}
+
+.body img {
+    display: block;
+    max-width: 60%;
+    max-height: 60%;
+}
