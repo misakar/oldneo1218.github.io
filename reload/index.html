@@ -6,16 +6,17 @@
     
     <!-- google site -->
     <meta name="google-site-verification" content="BazmSJ55LY7H3RD6ttelAsE8PmOPjhkFnDdIjFMCiJE" />
-    <title>neo1218死宅 - POST</title>
+    <title>neo1218の死宅 - POST</title>
     <link rel="shortcut icon" href="http://7xj431.com1.z0.glb.clouddn.com/cropped-150-150-688417.png" type="image/x-icon" />
     <link rel="stylesheet" type="text/css" href=/static/css/base_site.css>
     <link rel="stylesheet" type="text/css" href=/static/css/index.css>
     <link rel="stylesheet" type="text/css" href=/static/css/post.css>
     <link rel="stylesheet" type="text/css" href=/static/css/self_card.css>
     <link rel="stylesheet" type="text/css" href=/static/css/logo/github.css>
-    <link rel="stylesheet" type="text/css" href=/static/css/logo/twitter.css>
     <link rel="stylesheet" type="text/css" href=/static/css/logo/facebook.css>
+    <link rel="stylesheet" type="text/css" href=/static/css/logo/twitter.css>
     <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/pygments.css">
     <link href=/static/image/bg.png>
 </head>
 <body>
@@ -27,7 +28,7 @@
             <nav class="left-box">
                 <ul>
                     <li>
-                        <a href=/>neo1218死宅</a> - Pythoner 死宅到底 不想说话 木犀万岁!
+                        <a href=/>neo1218の死宅</a> - Pythoner 死宅到底 不想说话 木犀万岁!
                     </li>
                 </ul>
             </nav>
@@ -147,54 +148,63 @@
     <div class="main_post">
         <h1>Why Reload?</h1>
         <h3>2016-06-19 10:31:53</h3>
-        <div class="body">
+        <div class="post_body">
             <h2>设定编码的惯例</h2>
+
 <p>当设定python文件编码时</p>
+
 <div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
 
 <span class="nb">reload</span><span class="p">(</span><span class="n">sys</span><span class="p">)</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">setdefaultencoding</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
 </pre></div>
 
-
 <p>三行搞定，妈妈再也不用担心汉字乱码了！😄</p>
+
 <h2>然而：问题来了</h2>
+
 <p>几个月后的一天，一名女程序员问我：为什么要 reload(sys) ? 😔</p>
+
 <h2>SO: Why reload(sys)</h2>
+
 <h3>1. sys</h3>
+
 <div class="codehilite"><pre><span></span>sys 是一个python模块，包含系统对应的功能，比如通过argv获取运行时命令行参数
 </pre></div>
 
-
 <p>具体见http://www.cnblogs.com/diege/archive/2012/10/03/2710776.html <br/></p>
+
 <h3>2. setdefaultencoding 函数</h3>
+
 <div class="codehilite"><pre><span></span>setdefaultencoding 是sys模块提供的一个函数，用来<span class="nt">&lt;strong&gt;</span>修改默认编码<span class="nt">&lt;/strong&gt;&lt;br/&gt;</span>
 </pre></div>
 
-
 <h3>3. python 加载模块的过程</h3>
+
 <div class="codehilite"><pre><span></span>运行解释器 -&gt; 加载库文件(ex: site.py) -&gt; 加载模块(ex: sys)
 </pre></div>
 
-
 <h3>4. python reload 函数</h3>
+
 <div class="codehilite"><pre><span></span>reload 是python内置函数，用于在当前运行时重新加载模块，不会改变先前文件中的模块状态
 </pre></div>
 
-
 <h3>5. reload(sys)</h3>
+
 <p>如果我们尝试运行</p>
+
 <div class="codehilite"><pre><span></span><span class="o">&gt;&gt;</span> <span class="kn">import</span> <span class="nn">sys</span>
 <span class="o">&gt;&gt;</span> <span class="n">sys</span><span class="o">.</span><span class="n">setdefaultencoding</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
 <span class="ne">AttributeError</span><span class="p">:</span> <span class="s1">&#39;module&#39;</span> <span class="nb">object</span> <span class="n">has</span> <span class="n">no</span> <span class="n">attribute</span> <span class="s1">&#39;setdefaultencoding&#39;</span>
 </pre></div>
 
-
 <p>这又是怎么回事呢？<br/>
 当我们导入加载 sys 模块时首先会加载 site.py(/usr/lib/python2.7), 看一下 site.py 的源码：
 <img alt="源码" src="http://7xj431.com1.z0.glb.clouddn.com/屏幕快照%202015-09-08%20下午11.17.14.png" /><br/></p>
+
 <p>原来setdefaultencoding函数被site.py删掉啦！至于为什么要删，注释里写了：使用户无法在初始化后改变编码<br/>
 而 reload(sys) 则避免了site.py的调用，所以可以使用 setdefaultencoding 函数改变编码<br/></p>
+
         </div>
     </div>
     <div id="disqus_thread" style="padding: 50px"></div>
@@ -236,13 +246,16 @@
         
     </div>
 </footer>
-<div id="to-top">
+<!--div id="to-top">
     <a href="" onclick="scroll_to_top(0.9); return false;">
-        <!--span class="fa fa-rocket"></span-->
         <img src="http://7xj431.com1.z0.glb.clouddn.com/tt.gif"
             style="height: 160px; width: 160px"></img>
     </a>
-</div>
+</div-->
+<a href="#" id="toTop" style="top: 0px;" onclick="scroll_to_top(0.9); return false;">
+    <div id="toTopRope"></div>
+    <img id="toTopHover" src="http://7xj431.com1.z0.glb.clouddn.com/topscroll.png"></div>
+</a>
 </body>
     <script src=/static/js/base_site.js> </script>
 </html>

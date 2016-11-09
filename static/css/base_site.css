@@ -224,6 +224,7 @@ div.footer {
     padding-bottom: 20px;
 }
 
+/*
 #to-top {
     position: fixed;
     right: 20px;
@@ -233,4 +234,33 @@ div.footer {
 
 #to-top span {
     color: gray;
+}
+*/
+
+#toTopRope {
+    display: block;
+    background: url(http://7xj431.com1.z0.glb.clouddn.com/rope.png);
+    height: calc(100% - 98px);
+    width: 100%;
+}
+
+#toTop {
+    text-decoration: none;
+    position: fixed;
+    right: 30px;
+    width: 70px;
+    box-sizing: border-box;
+    border: none;
+    text-indent: 100%;
+    z-index: 100;
+    -webkit-transition: top 1s ease-in-out;
+    height: calc(100% - 77px);
+}
+
+#toTopHover {
+    width: 70px;
+    height: 98px;
+    top: -2px;
+    display: block;
+    position: relative;
 }

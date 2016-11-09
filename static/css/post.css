@@ -28,12 +28,24 @@
     font-size: 16px;
 }
 
-.body {
+.post_body {
     padding: 50px;
+    font-family: Serif, Monospace, Sans-serif;
 }
 
-.body img {
+.post_body pre {
+    padding: 20px;
+    font-size: 14px;
+}
+
+.post_body p {
+    color: grey;
+}
+
+.post_body img {
     display: block;
     max-width: 60%;
     max-height: 60%;
+    padding: 10px;
+    box-shadow: rgba(0.25, 0.25, 0.25, 0.25) 1px 1px 1px;
 }

@@ -6,16 +6,17 @@
     
     <!-- google site -->
     <meta name="google-site-verification" content="BazmSJ55LY7H3RD6ttelAsE8PmOPjhkFnDdIjFMCiJE" />
-    <title>neo1218死宅 - POST</title>
+    <title>neo1218の死宅 - POST</title>
     <link rel="shortcut icon" href="http://7xj431.com1.z0.glb.clouddn.com/cropped-150-150-688417.png" type="image/x-icon" />
     <link rel="stylesheet" type="text/css" href=/static/css/base_site.css>
     <link rel="stylesheet" type="text/css" href=/static/css/index.css>
     <link rel="stylesheet" type="text/css" href=/static/css/post.css>
     <link rel="stylesheet" type="text/css" href=/static/css/self_card.css>
     <link rel="stylesheet" type="text/css" href=/static/css/logo/github.css>
-    <link rel="stylesheet" type="text/css" href=/static/css/logo/twitter.css>
     <link rel="stylesheet" type="text/css" href=/static/css/logo/facebook.css>
+    <link rel="stylesheet" type="text/css" href=/static/css/logo/twitter.css>
     <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/pygments.css">
     <link href=/static/image/bg.png>
 </head>
 <body>
@@ -27,7 +28,7 @@
             <nav class="left-box">
                 <ul>
                     <li>
-                        <a href=/>neo1218死宅</a> - Pythoner 死宅到底 不想说话 木犀万岁!
+                        <a href=/>neo1218の死宅</a> - Pythoner 死宅到底 不想说话 木犀万岁!
                     </li>
                 </ul>
             </nav>
@@ -147,16 +148,22 @@
     <div class="main_post">
         <h1>Python设计模式</h1>
         <h3>2016-06-19 09:13:42</h3>
-        <div class="body">
+        <div class="post_body">
             <h1>设计模式</h1>
+
 <p>设计模式是对特定情境下解决问题的代码的抽象</p>
+
 <h1>Python设计模式</h1>
+
 <h2>策略模式(Strategy Pattern)</h2>
+
 <p><strong>场景:</strong><br/>
 策略模式是一种在运行时(runtime)决定程序具体行为的行为模式。</p>
+
 <p><strong>模式:</strong><br/>
 context 1: class_1 <br/>
 context 2: class_2 <br/></p>
+
 <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="n">StrategyPattern</span>(<span class="n">object</span>):
 
     <span class="n">def</span> <span class="n">__init__</span>(<span class="k">self</span>, <span class="n">class_1</span>, <span class="n">class_2</span>, <span class="nb">context</span>):
@@ -171,14 +178,17 @@ context 2: class_2 <br/></p>
             <span class="k">self</span>.<span class="n">class_2</span>.<span class="n">operation</span>()
 </pre></div>
 
-
 <p>这个策略模式用于合并不同context中的两个类操作, 上层的策略模式类进行调度,
 避免了每个使用class_1或class_2的context进行重复判断.</p>
+
 <h2>适配器模式(Adapter Pattern)</h2>
+
 <p><strong>场景:</strong><br/>
 适配器就是封装, 将可能多次使用的操作封装到一个适配器(封装)类中,
 避免下次使用时从头开始编写.</p>
+
 <p><strong>模式:</strong><br/></p>
+
 <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="n">Operation1</span>(<span class="n">object</span>):
     <span class="n">def</span> <span class="n">operation1</span>(<span class="k">self</span>):
         <span class="nb">pass</span>
@@ -196,17 +206,19 @@ context 2: class_2 <br/></p>
         <span class="n">o2</span>.<span class="n">operation2</span>()
 </pre></div>
 
-
 <h2>工厂模式(Factory Pattern)</h2>
+
 <p><strong>场景:</strong><br/>
 顾名思义, 工厂模式用于生产实例对象,
 使用工厂模式的最好时机是生产出的对象实例在不同上下文中有不同的表现.</p>
+
 <p><strong>模式:</strong><br/>
 Button: 按钮类🔘 <br/>
 Image: 图像按钮: <code>&lt;img&gt;&lt;/img&gt;</code> <br/>
 Input: 输入按钮: <code>&lt;input&gt;&lt;/input&gt;</code> <br/>
 Flash: flash按钮: <code>&lt;obj&gt;&lt;/obj&gt;</code> <br/>
 ButtonFactory: 按钮工厂类<br/></p>
+
 <div class="codehilite"><pre><span></span>class Button(object):
     html = &#39;&#39;
     def get_html(self):
@@ -228,22 +240,25 @@ class ButtonFactory(object):
         return globals()[target_class]()
 </pre></div>
 
-
 <p>使用:</p>
+
 <div class="codehilite"><pre><span></span>button_obj = ButtonFactory()
 button_type = [&#39;image&#39;, &#39;input&#39;, &#39;flash&#39;]
 for button in button_type:
     button_obj.create_button(button)
 </pre></div>
 
-
 <p>十分简介、清楚.</p>
+
 <h2>装饰器模式</h2>
+
 <p><strong>场景:</strong><br/>
 装饰器模式用于在特定场景对某个操作添加额外的功能.</p>
+
 <p><strong>模式:</strong><br/>
 比如做一个麦当朱汉堡🍔 <br/>
 这是原料:</p>
+
 <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="n">Meet</span>(<span class="n">object</span>):
     <span class="n">def</span> <span class="n">__repr__</span>(<span class="k">self</span>):
         <span class="k">return</span> <span class="s">&quot;我是肉&quot;</span>
@@ -253,8 +268,8 @@ for button in button_type:
         <span class="k">return</span> <span class="s">&quot;我是面包&quot;</span>
 </pre></div>
 
-
 <p>开始生产:</p>
+
 <div class="codehilite"><pre><span></span>def produce_meet():
     meet = Meet()
     return meet.__repr__()
@@ -269,21 +284,28 @@ def produce(produce_meet):
     return decorator
 </pre></div>
 
-
 <p>个人很喜欢装饰器模式, 装饰器模式是代码重用的最优雅境界, 特别是结合Python的语法糖@使用.</p>
+
 <h2>单例模式</h2>
+
 <p><strong>场景:</strong><br/>
 单例模式保证我们在运行环境(runtime)中只有一个实例.</p>
+
 <p><strong>模式:</strong><br/>
 这里以tornado的IOLoop类源码为例:
 <img alt="IOLoop" src="http://7xj431.com1.z0.glb.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-05-08%20%E4%B8%8B%E5%8D%8810.09.51.png" /> <br/> 单例模式可以保证在同一时候只有一个IOLoop实例运行.</p>
+
 <h1>总结</h1>
+
 <p>设计模式是对问题的总结, 对解决问题代码的抽象; 但是不要拘泥于一定要用设计模式,
 当你觉得你的代码写的很丑的时候, 可以考虑用设计模式整容你的代码.</p>
+
 <h1>参考</h1>
+
 <ul>
 <li><a href="https://segmentfault.com/a/1190000003931281">使用Python解释设计模式</a></li>
 </ul>
+
         </div>
     </div>
     <div id="disqus_thread" style="padding: 50px"></div>
@@ -325,13 +347,16 @@ def produce(produce_meet):
         
     </div>
 </footer>
-<div id="to-top">
+<!--div id="to-top">
     <a href="" onclick="scroll_to_top(0.9); return false;">
-        <!--span class="fa fa-rocket"></span-->
         <img src="http://7xj431.com1.z0.glb.clouddn.com/tt.gif"
             style="height: 160px; width: 160px"></img>
     </a>
-</div>
+</div-->
+<a href="#" id="toTop" style="top: 0px;" onclick="scroll_to_top(0.9); return false;">
+    <div id="toTopRope"></div>
+    <img id="toTopHover" src="http://7xj431.com1.z0.glb.clouddn.com/topscroll.png"></div>
+</a>
 </body>
     <script src=/static/js/base_site.js> </script>
 </html>
