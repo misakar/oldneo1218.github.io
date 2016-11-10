@@ -30,7 +30,7 @@
 
 .post_body {
     padding: 50px;
-    font-family: Serif, Monospace, Sans-serif;
+    font-family: "Helvetica Neue",Helvetica,"Nimbus Sans L",Arial,"Liberation Sans","PingFang SC","Hiragino Sans GB","Source Han Sans CN","Source Han Sans SC","Microsoft YaHei","Wenquanyi Micro Hei","WenQuanYi Zen Hei","ST Heiti",SimHei,"WenQuanYi Zen Hei Sharp",sans-serif;
 }
 
 .post_body pre {
@@ -40,7 +40,9 @@
 }
 
 .post_body p {
-    color: grey;
+    color: #003366;
+    display: block;
+    font-weight: 400;
 }
 
 .post_body img {

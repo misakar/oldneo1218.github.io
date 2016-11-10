@@ -151,12 +151,12 @@
         <div class="post_body">
             <p><a href="https://gist.github.com/upsuper/2517847">原文gist地址</a></p>
 
-<h1>一行 Python 实现树</h1>
+<h1 id="python">一行 Python 实现树</h1>
 
 <p>使用 Python 内置的 <a href="http://docs.python.org/library/collections.html#collections.defaultdict"><code>defaultdict</code></a>，我们可以很容易的定义一个树形数据结构：</p>
 
-<p><code>python
-def tree(): return defaultdict(tree)</code></p>
+<pre><code class="python">def tree(): return defaultdict(tree)
+</code></pre>
 
 <p>就是这样！</p>
 
@@ -166,83 +166,84 @@ def tree(): return defaultdict(tree)</code></p>
 
 <p>(另: Hacker News 读者 @zbuc 指出这种结构被称为 <a href="https://en.wikipedia.org/wiki/Autovivification">autovivification</a>。 太酷了！)</p>
 
-<h2>例子</h2>
+<h2 id="_1">例子</h2>
 
-<h3>JSON 风格</h3>
+<h3 id="json">JSON 风格</h3>
 
 <p>现在我们可以创建一个 JSON 风格的嵌套字典，我们不需要显式地创建子字典——当我们需要时，它们神奇地自动出现了：</p>
 
-<p><code>python
-users = tree()
+<pre><code class="python">users = tree()
 users['harold']['username'] = 'hrldcpr'
-users['handler']['username'] = 'matthandlersux'</code></p>
+users['handler']['username'] = 'matthandlersux'
+</code></pre>
 
 <p>我们可以将这些用 <code>print(json.dumps(users))</code> 以 JSON 的形式输出，于是我们得到：</p>
 
-<p><code>javascript
-{"harold": {"username": "hrldcpr"}, "handler": {"username": "matthandlersux"}}</code></p>
+<pre><code class="javascript">{&quot;harold&quot;: {&quot;username&quot;: &quot;hrldcpr&quot;}, &quot;handler&quot;: {&quot;username&quot;: &quot;matthandlersux&quot;}}
+</code></pre>
 
-<h3>不需要赋值</h3>
+<h3 id="_2">不需要赋值</h3>
 
 <p>我们甚至可以不需要任何赋值就可以创建整个树结构：</p>
 
-<p><code>python
-taxonomy = tree()
+<pre><code class="python">taxonomy = tree()
 taxonomy['Animalia']['Chordata']['Mammalia']['Carnivora']['Felidae']['Felis']['cat']
 taxonomy['Animalia']['Chordata']['Mammalia']['Carnivora']['Felidae']['Panthera']['lion']
 taxonomy['Animalia']['Chordata']['Mammalia']['Carnivora']['Canidae']['Canis']['dog']
 taxonomy['Animalia']['Chordata']['Mammalia']['Carnivora']['Canidae']['Canis']['coyote']
 taxonomy['Plantae']['Solanales']['Solanaceae']['Solanum']['tomato']
 taxonomy['Plantae']['Solanales']['Solanaceae']['Solanum']['potato']
-taxonomy['Plantae']['Solanales']['Convolvulaceae']['Ipomoea']['sweet potato']</code></p>
+taxonomy['Plantae']['Solanales']['Convolvulaceae']['Ipomoea']['sweet potato']
+</code></pre>
 
 <p>我们接下来将漂亮地输出他们，不过需要先将他们转换为标准的字典：</p>
 
-<p><code>python
-def dicts(t): return {k: dicts(t[k]) for k in t}</code></p>
+<pre><code class="python">def dicts(t): return {k: dicts(t[k]) for k in t}
+</code></pre>
 
 <p>现在我们用 <code>pprint(dicts(taxonomy))</code> 来漂亮地输出结构：</p>
 
-<p><code>python
-{'Animalia': {'Chordata': {'Mammalia': {'Carnivora': {'Canidae': {'Canis': {'coyote': {},
+<pre><code class="python">{'Animalia': {'Chordata': {'Mammalia': {'Carnivora': {'Canidae': {'Canis': {'coyote': {},
                                                                             'dog': {}}},
                                                       'Felidae': {'Felis': {'cat': {}},
                                                                   'Panthera': {'lion': {}}}}}}},
  'Plantae': {'Solanales': {'Convolvulaceae': {'Ipomoea': {'sweet potato': {}}},
                            'Solanaceae': {'Solanum': {'potato': {},
-                                                      'tomato': {}}}}}}</code></p>
+                                                      'tomato': {}}}}}}
+</code></pre>
 
 <p>于是我们引用到的子结构以字典的形式存在，空字典即代表了叶子。</p>
 
-<h3>迭代</h3>
+<h3 id="_3">迭代</h3>
 
 <p>这棵树可以很欢乐地被迭代处理，同样因为只要简单地引用一个结构它就会出现。</p>
 
-<p>举例来说，假设我们想要解析一个新动物的列表，将它们加入我们上面的 taxonomy，我们只要这样调用一个函数：
-<code>python
-add(taxonomy,
-    'Animalia,Chordata,Mammalia,Cetacea,Balaenopteridae,Balaenoptera,blue whale'.split(','))</code></p>
+<p>举例来说，假设我们想要解析一个新动物的列表，将它们加入我们上面的 taxonomy，我们只要这样调用一个函数：</p>
+
+<pre><code class="python">add(taxonomy,
+    'Animalia,Chordata,Mammalia,Cetacea,Balaenopteridae,Balaenoptera,blue whale'.split(','))
+</code></pre>
 
 <p>我们可以简单地这样实现它：</p>
 
-<p><code>python
-def add(t, keys):
+<pre><code class="python">def add(t, keys):
   for key in keys:
-    t = t[key]</code></p>
+    t = t[key]
+</code></pre>
 
 <p>再一次，我们完全没有对字典使用任何赋值，仅仅是引用了这些键，我们便创建了我们新的结构：</p>
 
-<p><code>python
-{'Animalia': {'Chordata': {'Mammalia': {'Carnivora': {'Canidae': {'Canis': {'coyote': {},
+<pre><code class="python">{'Animalia': {'Chordata': {'Mammalia': {'Carnivora': {'Canidae': {'Canis': {'coyote': {},
                                                                             'dog': {}}},
                                                       'Felidae': {'Felis': {'cat': {}},
                                                                   'Panthera': {'lion': {}}}},
                                         'Cetacea': {'Balaenopteridae': {'Balaenoptera': {'blue whale': {}}}}}}},
  'Plantae': {'Solanales': {'Convolvulaceae': {'Ipomoea': {'sweet potato': {}}},
                            'Solanaceae': {'Solanum': {'potato': {},
-                                                      'tomato': {}}}}}}</code></p>
+                                                      'tomato': {}}}}}}
+</code></pre>
 
-<h2>结论</h2>
+<h2 id="_4">结论</h2>
 
 <p>这也许并不特别实用，而且也出现了一些令人困惑的代码 (见上面的 <code>add()</code>)。</p>
 
