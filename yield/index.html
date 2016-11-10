@@ -146,108 +146,221 @@
         
 <div class="post-body-wrapper">
     <div class="main_post">
-        <h1>o转载o一行Python实现树</h1>
-        <h3>2016-06-19 10:36:04</h3>
+        <h1>关于Python yield的一些常识</h1>
+        <h3>2016-11-10 18:28:10</h3>
         <div class="post_body">
-            <p><a href="https://gist.github.com/upsuper/2517847">原文gist地址</a></p>
+            <p><img alt="" src="http://7xj431.com1.z0.glb.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-11-10%20%E4%B8%8B%E5%8D%886.41.12.png" /></p>
 
-<h1 id="python">一行 Python 实现树</h1>
+<h1 id="python-yield">关于Python yield的一些常识</h1>
 
-<p>使用 Python 内置的 <a href="http://docs.python.org/library/collections.html#collections.defaultdict"><code>defaultdict</code></a>，我们可以很容易的定义一个树形数据结构：</p>
+<h2 id="1-yield">1. yield关键字</h2>
 
-<pre><code class="python">def tree(): return defaultdict(tree)
+<p><a href="https://www.python.org/dev/peps/pep-0255/">PEP 255 &ndash; Simple Generators</a>中引入了yield关键字:</p>
+
+<pre><code>This PEP introduces the concept of generators to Python, as well
+as a new statement used in conjunction with them, the "yield"
+statement.
 </code></pre>
 
-<p>就是这样！</p>
+<p>yield关键字用来实现生成器. <br/><br />
+什么是生成器呢? 生成器是一个<strong>可迭代</strong>的对象(实现了<code>__iter__</code>方法的对象).<br />
+但相比于列表、元组等可迭代对象, 生成器的调用不会立即执行得到结果, 而是返回一个generator对象, 每次手动调用next执行生成器对象才能得到结果, 比如:</p>
 
-<p>简单地来说，一颗树就是一个默认值是其子树的字典。</p>
+<pre><code>In [23]: def generator():
+...:     print('--- start ---')
+...:     yield 1
+...:     print('--- end ---')
+...:     yield 2
+...:
+In [24]: gen = generator()
 
-<p>(使用之前需要确认已经 <code>from collections import defaultdict</code> 了)</p>
+In [25]: gen
+Out[25]: &lt;generator object generator at 0x110361bf8&gt;
 
-<p>(另: Hacker News 读者 @zbuc 指出这种结构被称为 <a href="https://en.wikipedia.org/wiki/Autovivification">autovivification</a>。 太酷了！)</p>
+In [26]: next(gen)
+--- start ---
+Out[26]: 1
 
-<h2 id="_1">例子</h2>
+In [27]: next(gen)
+--- end ---
+Out[27]: 2
 
-<h3 id="json">JSON 风格</h3>
+In [28]: next(gen)
+---------------------------------------------------------------------------
+StopIteration                             Traceback (most recent call last)
+&lt;ipython-input-28-8a6233884a6c&gt; in &lt;module&gt;()
+----&gt; 1 next(gen)
 
-<p>现在我们可以创建一个 JSON 风格的嵌套字典，我们不需要显式地创建子字典——当我们需要时，它们神奇地自动出现了：</p>
-
-<pre><code class="python">users = tree()
-users['harold']['username'] = 'hrldcpr'
-users['handler']['username'] = 'matthandlersux'
+StopIteration:
 </code></pre>
 
-<p>我们可以将这些用 <code>print(json.dumps(users))</code> 以 JSON 的形式输出，于是我们得到：</p>
+<p>当生成器迭代结束时, 会raise一个StopIteration错误. <br/><br />
+可是, 这究竟有什么用呢? 把好好的一个可迭代对象的执行流拆的四分五裂? <br/></p>
 
-<pre><code class="javascript">{&quot;harold&quot;: {&quot;username&quot;: &quot;hrldcpr&quot;}, &quot;handler&quot;: {&quot;username&quot;: &quot;matthandlersux&quot;}}
+<p>需要注意到的是: <strong>生成器是一个函数</strong>, 函数就是一段执行流,<br />
+也就是说通过yield, 我们可以把一个函数执行流划分成更细的执行流,<br />
+而且可以通过next手动调度. 就算中间发生切换也没关系,<br />
+生成器帮我们保存了执行时环境信息!(放在内存中). <br />
+<hr/><br />
+这就开始变得有意思了, 如果没有感觉到, 可以想想: 进程、线程、中断:) <br/><br />
+此外, 还可以用元组生成式创建生成器:</p>
+
+<pre><code>In [29]: lt = [1, 2, 3, 4]
+
+In [30]: gen = (i for i in lt)
+
+In [31]: gen
+Out[31]: &lt;generator object &lt;genexpr&gt; at 0x110213938&gt;
+
+In [32]: next(gen)
+Out[32]: 1
 </code></pre>
 
-<h3 id="_2">不需要赋值</h3>
+<p>这里的生成器gen更像是列表这样的容器, 不过相比于列表, 生成器占用的内存更少,<br />
+因为不用把全部结果存放在内存中:) <br/><br />
+生成器还有一个有意思的特性<strong>send方法</strong>:</p>
 
-<p>我们甚至可以不需要任何赋值就可以创建整个树结构：</p>
+<pre><code>In [34]: def double_result():
+    ...:     x = yield
+    ...:     yield x * 2
+    ...:
 
-<pre><code class="python">taxonomy = tree()
-taxonomy['Animalia']['Chordata']['Mammalia']['Carnivora']['Felidae']['Felis']['cat']
-taxonomy['Animalia']['Chordata']['Mammalia']['Carnivora']['Felidae']['Panthera']['lion']
-taxonomy['Animalia']['Chordata']['Mammalia']['Carnivora']['Canidae']['Canis']['dog']
-taxonomy['Animalia']['Chordata']['Mammalia']['Carnivora']['Canidae']['Canis']['coyote']
-taxonomy['Plantae']['Solanales']['Solanaceae']['Solanum']['tomato']
-taxonomy['Plantae']['Solanales']['Solanaceae']['Solanum']['potato']
-taxonomy['Plantae']['Solanales']['Convolvulaceae']['Ipomoea']['sweet potato']
+In [35]: gen = double_result()
+
+In [36]: gen
+Out[36]: &lt;generator object double_result at 0x1103922b0&gt;
+
+In [37]: gen.send(None) # next(gen)
+
+In [38]: gen.send(4)
+Out[38]: 8
 </code></pre>
 
-<p>我们接下来将漂亮地输出他们，不过需要先将他们转换为标准的字典：</p>
+<p>这里主线程调用send方法, 将执行流交给gen(double_result函数), 相当于执行next(gen), 并且传递了一个值给gen[x = yield]. send方法返回gen每次执行的结果. <br/><br />
+主线程和生成器执行流间的交互, 就是这么美妙、直接!;</p>
 
-<pre><code class="python">def dicts(t): return {k: dicts(t[k]) for k in t}
+<h2 id="2-yield">2. yield关键字的用处</h2>
+
+<p>上面说的更多关注生成器本身的特性, 这一部分会介绍生成器(yield)的实际使用.</p>
+
+<h3 id="_1">管道?</h3>
+
+<p>这个部分主要参考<a href="http://www.dabeaz.com/generators/Generators.pdf">Dabeaz的Generators pdf</a>. <br/><br />
+当我看到Dabeaz的Generators pdf, 看到里面所举的例子, 虽然都是生成器常规普通的用法, 但是将生成器作为中间对象, 忽略细节, 把生成器当作一个内存占用少的整体作为管道pipeline连接2个处理程序, 这种unix style还是让我十分惊讶, 用Dabeaz的话来说就是<strong>Think Big</strong> <br/><br />
+比如, 现在有一个GB级别的nginx log日志, 我们希望拿到全部ip(不重复)做进一步处理(统计、分析&hellip;). <br/><br />
+首先:</p>
+
+<ul>
+<li>打开日志文件, 将日志放到一个<strong>生成器</strong>中</li>
+<li>读取<strong>生成器</strong>中日志拿到ip放到一个<strong>生成器</strong>中</li>
+<li>利用集合对ip<strong>生成器</strong>进行去重, 得到所有ip集合</li>
+</ul>
+
+<pre><code>nginx_log = open('big-nginx-access.log')
+ip_columns = (line.split()[0] for line in nginx_log)
+ip_set = set(ip_columns)
 </code></pre>
 
-<p>现在我们用 <code>pprint(dicts(taxonomy))</code> 来漂亮地输出结构：</p>
+<p>执行的流程图:</p>
 
-<pre><code class="python">{'Animalia': {'Chordata': {'Mammalia': {'Carnivora': {'Canidae': {'Canis': {'coyote': {},
-                                                                            'dog': {}}},
-                                                      'Felidae': {'Felis': {'cat': {}},
-                                                                  'Panthera': {'lion': {}}}}}}},
- 'Plantae': {'Solanales': {'Convolvulaceae': {'Ipomoea': {'sweet potato': {}}},
-                           'Solanaceae': {'Solanum': {'potato': {},
-                                                      'tomato': {}}}}}}
+<p><img alt="" src="http://7xj431.com1.z0.glb.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-11-10%20%E4%B8%8B%E5%8D%888.16.15.png" /> <br/></p>
+
+<h3 id="_2">上下文管理器</h3>
+
+<p>在编程中我们经常会遇到这些情况:</p>
+
+<pre><code>f = open()
+......
+f.close()
+
+lock.acquire()
+......
+lock.release()
+
+db.start_transaction()
+......
+db.commit()
 </code></pre>
 
-<p>于是我们引用到的子结构以字典的形式存在，空字典即代表了叶子。</p>
+<p>一般我们会使用上下文管理器处理这些情况, 上下文管理器会帮我们自动关闭事务,<br />
+我们只需要专注核心处理代码就行了. <br/><br />
+所谓上下文管理器就是实现了<code>__enter__</code>和<code>__exit__</code>方法的类,<br />
+比如在一个上下文中创建并使用一个临时文件</p>
 
-<h3 id="_3">迭代</h3>
+<pre><code>class tempdir(object):
+    def __enter__(self):
+        self.dirname = tempfile.mkdtemp()
+        return self.dirname
 
-<p>这棵树可以很欢乐地被迭代处理，同样因为只要简单地引用一个结构它就会出现。</p>
-
-<p>举例来说，假设我们想要解析一个新动物的列表，将它们加入我们上面的 taxonomy，我们只要这样调用一个函数：</p>
-
-<pre><code class="python">add(taxonomy,
-    'Animalia,Chordata,Mammalia,Cetacea,Balaenopteridae,Balaenoptera,blue whale'.split(','))
+    def __exit__(self):
+        shutil.rmtree(self.dirname)
 </code></pre>
 
-<p>我们可以简单地这样实现它：</p>
+<p>这样就可以使用</p>
 
-<pre><code class="python">def add(t, keys):
-  for key in keys:
-    t = t[key]
+<pre><code>with tempdir() as value:
+    # 核心代码!
 </code></pre>
 
-<p>再一次，我们完全没有对字典使用任何赋值，仅仅是引用了这些键，我们便创建了我们新的结构：</p>
+<p>Python还提供了一个<strong>@contextmanager装饰器</strong>方便我们编写上下文管理器</p>
 
-<pre><code class="python">{'Animalia': {'Chordata': {'Mammalia': {'Carnivora': {'Canidae': {'Canis': {'coyote': {},
-                                                                            'dog': {}}},
-                                                      'Felidae': {'Felis': {'cat': {}},
-                                                                  'Panthera': {'lion': {}}}},
-                                        'Cetacea': {'Balaenopteridae': {'Balaenoptera': {'blue whale': {}}}}}}},
- 'Plantae': {'Solanales': {'Convolvulaceae': {'Ipomoea': {'sweet potato': {}}},
-                           'Solanaceae': {'Solanum': {'potato': {},
-                                                      'tomato': {}}}}}}
+<pre><code>@contextmanager
+def tempdir():
+    dirname = tempdir.mkdtemp()
+    try:
+        yield dirname
+    finally:
+        shutil.rmtree(dirname)
 </code></pre>
 
-<h2 id="_4">结论</h2>
+<p>其实<code>@contextmanager</code>装饰器只是对上下文管理器类代码的重构, 重构的关键就是</p>
 
-<p>这也许并不特别实用，而且也出现了一些令人困惑的代码 (见上面的 <code>add()</code>)。</p>
+<pre><code>yield dirname
+</code></pre>
 
-<p>不过如果你喜欢 Python，我希望思考这些会让你觉得有趣，或者值得去理解。</p>
+<p>这里的yield! <br/><br />
+第一眼看到这个yield的时候, 我是懵b的, 这个yield到底是做什么的?<br />
+这就需要看看contextmanager装饰器的实现了 <br/><br />
+contextmanager装饰器大致实现部分如下: <br/><br />
+装饰器部分:</p>
+
+<pre><code>def contextmanager(func):
+    def run(*args, **kwargs):
+        return GeneratorCM(func(*args, **kwargs))
+    return func
+</code></pre>
+
+<p>再来看看GeneratorCM类的大致实现:</p>
+
+<pre><code>class GeneratorCM(object):
+    def __init__(self, gen):
+        self.gen = gen
+
+    def __enter__(self):
+        return next(gen)  # 执行生成器, 拿到dirname (value)
+
+    def __exit__(self, exc_type):
+        try:
+            if exc_type is None:
+                next(self.gen)
+            else:
+                self.gen.throw(exc_type)
+        except StopIteration: # 利用StopIteration退出上下文
+            return True
+</code></pre>
+
+<p>原来yield将被修饰的函数变成生成器,<br />
+还记得之前说过的可以通过next实现生成器执行流更细粒的调度吗?<br />
+这里把碰到yield之前的代码作为<code>__enter__</code>部分,<br />
+把后面执行触发StopIteration错误的代码作为<code>__exit__</code>部分实现上下文管理器的退出.<br/><br />
+现在知道为什么要把一个函数执行流弄的四分五裂了吧 😄<br />
+ <br/></p>
+
+<h2 id="_3">今天先写这么多, 明天继续!</h2>
+
+<h3 id="_4">生成器用于异步调度</h3>
+
+<h3 id="_5">协程: 单线程并发</h3>
 
         </div>
     </div>
