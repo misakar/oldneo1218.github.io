@@ -14,7 +14,7 @@
 }
 
 .post-list {
-    float: left;
+    /*float: left;*/
     width: 650px;
     background-color: transparent;
 }
@@ -117,7 +117,7 @@ div.post-author-category > a.author {
 }
 
 .right-wrapper {
-    float: left;
+    float: right;
     margin-left: 50px;
     width: 280px;
 }
