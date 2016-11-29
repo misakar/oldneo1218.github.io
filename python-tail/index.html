@@ -147,9 +147,11 @@
 <div class="post-body-wrapper">
     <div class="main_post">
         <h1>Python尾递归优化</h1>
-        <h3>2016-06-19 10:29:36</h3>
+        <h3>2016-11-30 16:37:53</h3>
         <div class="post_body">
-            <h2 id="_1">一般递归与尾递归</h2>
+            <h1 id="python">Python尾递归优化</h1>
+
+<h2 id="_1">一般递归与尾递归</h2>
 
 <h4 id="_2">一般递归:</h4>
 
@@ -167,17 +169,18 @@
 5 + 4 + normal_recursion(3)
 5 + 4 + 3 + normal_recursion(2)
 5 + 4 + 3 + 2 + normal_recursion(1)
-5 + 4 + 3 + 2 + 1
+5 + 4 + 3 + 3
+5 + 4 + 6
+5 + 10
 15
 </code></pre>
 
-<p><strong>一般递归</strong>的效率是比较低的，因为在<code>return n + normal_recursion(n-1)</code>时需要<br />
-调用栈保存中间变量n的值，递归进行的越深入，需要调用的栈就越多，效率也就越低。<br/></p>
+<p>可以看到, 一般递归, 每一级递归都需要调用函数, 会创建新的栈,<br />
+随着递归深度的增加, 创建的栈越来越多, 造成爆栈💥 </p>
 
 <h4 id="_3">尾递归</h4>
 
-<p>如果可以将中间变量作为参数直接传递给递归调用函数，那么可以大大提高递归效率，这就是尾递归<br />
-的实现</p>
+<p><a href="https://zh.wikipedia.org/wiki/%E5%B0%BE%E8%B0%83%E7%94%A8">尾递归基于函数的尾调用</a>, 每一级调用直接返回函数的返回值更新调用栈,而不用创建新的调用栈, 类似迭代的实现, 时间和空间上均优化了一般递归!</p>
 
 <pre><code>def tail_recursion(n, total=0):
     if n == 0:
@@ -197,14 +200,53 @@ tail_recursion(0, 15)
 15
 </code></pre>
 
-<h2 id="_4">存在的问题</h2>
+<p>可以看到, 每一级递归的函数调用变成&rdquo;线性&rdquo;的形式. </p>
 
-<p>python 本身对尾递归的支持不太好，当递归深度超过1000时会报错</p>
+<h2 id="_4">深入理解尾递归</h2>
+
+<p>呃, 所以呢? 是不是感觉还不够过瘾&hellip; 谁说尾递归调用就不用创建新的栈呢?<br />
+还是让我们去底层一探究竟吧<br/></p>
+
+<pre><code>int tail_recursion(int n, int total) {
+    if (n == 0) {
+        return total;
+    }
+    else {
+        return tail_recursion(n-1, total+n);
+    }
+}
+
+int main(void) {
+    int total = 0, n = 4;
+    tail_recursion(n, total);
+    return 0;
+}
+</code></pre>
+
+<p><strong>反汇编</strong> <br/></p>
+
+<ul>
+<li><code>$ gcc -S tail_recursion.c -o normal_recursion.S</code></li>
+<li><code>$ gcc -S -O2 tail_recursion.c -o tail_recursion.S</code> gcc开启尾递归优化</li>
+</ul>
+
+<p>对比反汇编代码如下(AT&amp;T语法) <br/><br />
+<img alt="" src="https://cloud.githubusercontent.com/assets/10671733/20724681/24cfaffe-b6aa-11e6-85f8-fee65848f533.png" /></p>
+
+<p>可以看到, 开启尾递归优化前, 使用call调用函数, 创建了新的调用栈(LBB0_3);<br />
+而开启尾递归优化后, 就没有新的调用栈生成了, 而是直接pop<br />
+bp指向的<code>_tail_recursion</code>函数的地址(pushq %rbp)然后返回,<br />
+<img alt="" src="https://cloud.githubusercontent.com/assets/10671733/20724912/13fc5b22-b6ab-11e6-84db-80126d4601a6.png" /><br />
+仍旧用的是同一个调用栈!</p>
+
+<h2 id="_5">存在的问题</h2>
+
+<p>虽然尾递归优化很好, 但python 不支持尾递归，递归深度超过1000时会报错</p>
 
 <pre><code>RuntimeError: maximum recursion depth exceeded
 </code></pre>
 
-<h2 id="_5">一个牛人想出的解决办法：</h2>
+<h2 id="_6">一个牛人想出的解决办法：</h2>
 
 <h4 id="tail_call_optimized">实现一个 tail_call_optimized 装饰器</h4>
 
@@ -214,12 +256,10 @@ tail_recursion(0, 15)
 # does this by throwing an exception if it is
 # it's own grandparent, and catching such
 # exceptions to recall the stack.
-# 抛出异常，捕获异常，重新调用栈...牛
 
 import sys
 
 class TailRecurseException:
-    """尾递归异常类"""
     def __init__(self, args, kwargs):
         self.args = args
         self.kwargs = kwargs
@@ -236,6 +276,9 @@ def tail_call_optimized(g):
     """
     def func(*args, **kwargs):
         f = sys._getframe()
+        # 为什么是grandparent, 函数默认的第一层递归是父调用,
+        # 对于尾递归, 不希望产生新的函数调用(即:祖父调用),
+        # 所以这里抛出异常, 拿到参数, 退出被修饰函数的递归调用栈!(后面有动图分析)
         if f.f_back and f.f_back.f_back \
             and f.f_back.f_back.f_code == f.f_code:
             # 抛出异常
@@ -245,7 +288,7 @@ def tail_call_optimized(g):
                 try:
                     return g(*args, **kwargs)
                 except TailRecurseException, e:
-                    # 捕获异常，重新调用栈
+                    # 捕获异常, 拿到参数, 退出被修饰函数的递归调用栈
                     args = e.args
                     kwargs = e.kwargs
     func.__doc__ = g.__doc__
@@ -259,27 +302,21 @@ def factorial(n, acc=1):
     return factorial(n-1, n*acc)
 
 print factorial(10000)
-# prints a big, big number,
-# but doesn't hit the recursion limit.
-
-@tail_call_optimized
-def fib(i, current = 0, next = 1):
-    if i == 0:
-        return current
-    else:
-        return fib(i - 1, next, current + next)
-
-print fib(10000)
-# also prints a big number,
-# but doesn't hit the recursion limit.
 </code></pre>
 
-<p>作者的基本思想就是当尾递归达到最大深度时自己抛出一个异常(TailRecurseException), 然后<br />
-捕获这个异常，然后重新调用栈，而不是让异常终止尾递归的运行。<br/></p>
+<p>为了更清晰的展示开启尾递归优化前、后调用栈的变化和tail_call_optimized装饰器抛异常退出递归调用栈的作用, 我这里利用<a href="https://github.com/inducer/pudb">pudb调试工具</a>做了动图 <br/></p>
+
+<p>开启尾递归优化前的调用栈 <br/><br />
+<img alt="" src="https://cloud.githubusercontent.com/assets/10671733/20725973/b4e5d060-b6ae-11e6-9116-265cdd871b36.gif" /> <br/><br />
+开启尾递归优化后(tail_call_optimized装饰器)的调用栈 <br/><br />
+<img alt="" src="https://cloud.githubusercontent.com/assets/10671733/20726110/1cfc8568-b6af-11e6-9817-1257b4c482f1.gif" /> <br/></p>
+
+<p>通过pudb右边栏的stack, 可以很清晰的看到调用栈的变化. <br/><br />
+因为尾递归没有调用栈的嵌套, 所以Python也不会报<code>RuntimeError: maximum recursion depth exceeded</code>错误了! <br/></p>
 
 <p>这里解释一下 sys._getframe() 函数:<br/></p>
 
-<pre><code>sys.getframe([depth]):
+<pre><code>sys._getframe([depth]):
 Return a frame object from the call stack.
 If optional integer depth is given, return the frame object that many calls below the top of the stack.
 If that is deeper than the call stack, ValueEfror is raised. The default for depth is zero,
@@ -296,10 +333,7 @@ def get_cur_info():
     print sys._getframe().f_back # 调用者的帧
 </code></pre>
 
-<h2 id="_6">参考</h2>
-
-<p>http://www.cnblogs.com/hello&ndash;the-world/archive/2012/07/19/2599003.html<br/><br />
-http://www.chinaz.com/program/2013/0917/318157_2.shtml</p>
+<p>更多关于<code>sys._getframe</code>请看<a href="http://feihonghsu.com/secrets/framehack/index.html#crazy-monkey-patching-lxml">Frame Hacks</a></p>
 
         </div>
     </div>
