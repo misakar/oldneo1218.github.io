@@ -1,4 +1,5 @@
-.info_card {
+/* .info_card { */
+#info_card {
     border-radius: 2px 50px 2px 20px;
     box-shadow: rgba(0, 0, 0, 0.25) 1px 1px 3px;
     background-color: white;

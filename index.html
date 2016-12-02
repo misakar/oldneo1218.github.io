@@ -146,7 +146,7 @@
         
 <div class="index-body-wrapper">
     <div class="right-wrapper">
-        <div class="info_card">
+        <div id="info_card">
     <!-- info card -->
     <div class="pic">
         <img src="https://avatars2.githubusercontent.com/u/10671733?v=3&s=460"/>
@@ -234,7 +234,6 @@
                     <h2>
                         <a href=/reload/>Why Reload?</a>
                     </h2>
-                    <!--div class="summary">...</div-->
                     <div class="summary" style="color: lightblue;">2016-12-01 10:31:53</div>
                 </div>
            </div>
@@ -251,7 +250,6 @@
                     <h2>
                         <a href=/python-tail/>Python尾递归优化</a>
                     </h2>
-                    <!--div class="summary">...</div-->
                     <div class="summary" style="color: lightblue;">2016-11-30 16:37:53</div>
                 </div>
            </div>
@@ -268,7 +266,6 @@
                     <h2>
                         <a href=/gdt/>全局描述符表</a>
                     </h2>
-                    <!--div class="summary">...</div-->
                     <div class="summary" style="color: lightblue;">2016-11-14 14:07:15</div>
                 </div>
            </div>
@@ -285,7 +282,6 @@
                     <h2>
                         <a href=/disk/>呃~硬盘</a>
                     </h2>
-                    <!--div class="summary">...</div-->
                     <div class="summary" style="color: lightblue;">2016-11-13 10:34:23</div>
                 </div>
            </div>
@@ -302,7 +298,6 @@
                     <h2>
                         <a href=/yield/>关于Python yield的一些常识</a>
                     </h2>
-                    <!--div class="summary">...</div-->
                     <div class="summary" style="color: lightblue;">2016-11-10 18:28:10</div>
                 </div>
            </div>
@@ -319,7 +314,6 @@
                     <h2>
                         <a href=/point/>指针(努力说清楚)</a>
                     </h2>
-                    <!--div class="summary">...</div-->
                     <div class="summary" style="color: lightblue;">2016-11-06 20:47:18</div>
                 </div>
            </div>
@@ -336,7 +330,6 @@
                     <h2>
                         <a href=/railgun-tech/>railgun技术总结</a>
                     </h2>
-                    <!--div class="summary">...</div-->
                     <div class="summary" style="color: lightblue;">2016-11-06 09:58:59</div>
                 </div>
            </div>
@@ -353,7 +346,6 @@
                     <h2>
                         <a href=/neox2/>neox2</a>
                     </h2>
-                    <!--div class="summary">...</div-->
                     <div class="summary" style="color: lightblue;">2016-09-26 20:37:44</div>
                 </div>
            </div>
@@ -370,7 +362,6 @@
                     <h2>
                         <a href=/muxi-backend-workflow/>muxi-backend-workflow</a>
                     </h2>
-                    <!--div class="summary">...</div-->
                     <div class="summary" style="color: lightblue;">2016-09-24 16:34:57</div>
                 </div>
            </div>
@@ -387,7 +378,6 @@
                     <h2>
                         <a href=/pycon2016/>pycon2016小记</a>
                     </h2>
-                    <!--div class="summary">...</div-->
                     <div class="summary" style="color: lightblue;">2016-09-11 20:16:01</div>
                 </div>
            </div>
@@ -418,4 +408,10 @@
 </body>
     <script src=/static/js/base_site.js> </script>
     <script src=/static/js/disqus/embed.js></script>
+    <script src=/static/js/menufix.js></script>
+    <script type="text/javascript">
+        window.onload = function(){
+            menufix("info_card");
+        }
+    </script>
 </html>
