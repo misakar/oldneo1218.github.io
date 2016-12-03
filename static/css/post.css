@@ -71,11 +71,10 @@
 
 .post_body img {
     display: block;
-    /*
-    max-width: 60%;
-    max-height: 60%;
-    */
-    max-width: 100%;
+    max-width: 75%;
+    max-height: 75%;
+    /*max-width: 100%;*/
     padding: 10px;
     box-shadow: rgba(0.25, 0.25, 0.25, 0.25) 1px 1px 1px;
+    margin: 10px 20px 10px 70px;
 }
