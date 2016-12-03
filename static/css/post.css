@@ -21,16 +21,15 @@
 
 .main_post > h3{
     text-align: center;
-    font-family: Monospace, Sans-serif, Serif;
+    /*font-family: Monospace, Sans-serif, Serif;*/
     border-bottom: 1px dotted rgb(144, 147, 154);
     padding-bottom: 20px;
-    color: lightblue;
     font-size: 16px;
 }
 
 .post_body {
     padding: 50px;
-    font-family: "Helvetica Neue",Helvetica,"Nimbus Sans L",Arial,"Liberation Sans","PingFang SC","Hiragino Sans GB","Source Han Sans CN","Source Han Sans SC","Microsoft YaHei","Wenquanyi Micro Hei","WenQuanYi Zen Hei","ST Heiti",SimHei,"WenQuanYi Zen Hei Sharp",sans-serif;
+    /*font-family: "Helvetica Neue",Helvetica,"Nimbus Sans L",Arial,"Liberation Sans","PingFang SC","Hiragino Sans GB","Source Han Sans CN","Source Han Sans SC","Microsoft YaHei","Wenquanyi Micro Hei","WenQuanYi Zen Hei","ST Heiti",SimHei,"WenQuanYi Zen Hei Sharp",sans-serif;*/
 }
 
 .post_body ul, ol {
@@ -53,9 +52,13 @@
 }
 
 .post_body p {
-    color: #003366;
     display: block;
     font-weight: 400;
+    font-size: 18px;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
 }
 
 .post_body a {
@@ -68,8 +71,11 @@
 
 .post_body img {
     display: block;
+    /*
     max-width: 60%;
     max-height: 60%;
+    */
+    max-width: 100%;
     padding: 10px;
     box-shadow: rgba(0.25, 0.25, 0.25, 0.25) 1px 1px 1px;
 }
