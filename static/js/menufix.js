@@ -1,21 +1,21 @@
 function menufix(id) {
-    var obj = document.getElementById(id);
-    var _getHeight = obj.offsetTop;
+    var menuObj = document.getElementById(id);
+    var menuHeight = menuObj.offsetTop;
 
-    window.onscroll = function() {
-        changePos(id, _getHeight);
-    }
+    window.addEventListener('scroll', function() {
+        changePos(id, menuHeight);
+    })
 }
 
 function changePos(id, height) {
-    var obj = document.getElementById(id);
-    var scrollTop = document.documentElement.scrollTop  ||
+    var _menuObj = document.getElementById(id);
+    var menuScrollTop = document.documentElement.scrollTop  ||
                     document.body.scrollTop;
-    if(scrollTop < height) {
-        obj.style.position = 'relative';
+    if(menuScrollTop < height) {
+        _menuObj.style.position = 'relative';
     }
     else {
-        obj.style.top = '10px';
-        obj.style.position = 'fixed';
+        _menuObj.style.top = '10px';
+        _menuObj.style.position = 'fixed';
     }
 }

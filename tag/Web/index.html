@@ -360,17 +360,32 @@
         
     </div>
 </footer>
-<a href="#" id="toTop" style="top: 0px;" onclick="scroll_to_top(0.9); return false;">
+<div id="toTop" style="top: 0px;" onclick="scroll_to_top(0.9); return false;">
     <div id="toTopRope"></div>
     <img id="toTopHover" src="http://7xj431.com1.z0.glb.clouddn.com/topscroll.png"></div>
-</a>
+</div>
 </body>
     <script src=/static/js/base_site.js> </script>
     <script src=/static/js/disqus/embed.js></script>
     <script src=/static/js/menufix.js></script>
+    <script src=/static/js/toTop.js></script>
     <script type="text/javascript">
-        window.onload = function(){
-            menufix("info_card");
+        function loadMenuFix() { menufix("info_card"); }
+        function loadDeadCat() { deadcat("toTop"); }
+        function addLoadEvent(func) {
+            var oldonload = window.onload;
+            if (typeof window.onload != 'function') {
+                window.onload = func;
+            } else {
+                window.onload = function() {
+                    if (oldonload) {
+                        oldonload();
+                    }
+                    func();
+                }
+            }
         }
+        addLoadEvent(loadMenuFix);
+        // addLoadEvent(loadDeadCat);
     </script>
 </html>
