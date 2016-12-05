@@ -253,6 +253,19 @@ div.footer {
     height: calc(100% - 77px);
 }
 
+#back-to-top {
+    cursor: pointer;
+    position: fixed;
+    right: 50px;
+    top: -900px;
+    z-index: 2;
+    width: 70px;
+    height: 900px;
+    -webkit-transition: all .5s ease-in-out;
+    transition: all .5s ease-in-out;
+    background: url(http://7xj431.com1.z0.glb.clouddn.com/scroll.png);
+}
+
 #toTopHover {
     width: 70px;
     height: 98px;
