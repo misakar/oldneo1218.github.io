@@ -24,7 +24,7 @@
     /*font-family: Monospace, Sans-serif, Serif;*/
     border-bottom: 1px dotted rgb(144, 147, 154);
     padding-bottom: 20px;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .post_body {
@@ -53,7 +53,7 @@
 
 .post_body p {
     display: block;
-    font-weight: 400;
+    /*font-weight: 400;*/
     font-size: 18px;
     -webkit-margin-before: 1em;
     -webkit-margin-after: 1em;
