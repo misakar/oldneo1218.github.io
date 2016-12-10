@@ -158,90 +158,284 @@
         
 <div class="post-body-wrapper">
     <div class="main_post">
-        <h1>Java对象内存空间估算</h1>
-        <h3>2016-07-21 17:45:28</h3>
+        <h1>我不知道的Cpp</h1>
+        <h3>2016-12-07 19:30:01</h3>
         <div class="post_body">
-            <h1 id="java">Java对象内存空间估算</h1>
+            <h1 id="cpp">我不知道的Cpp</h1>
 
-<p>先前几篇算法分析, 主要侧重的是对算法运行时间的估算. 这一篇博客, 介绍如何估算算法运行占用的空间. 占用空间相比于运行时间更好估算, 因为对象最基础都是由原始数据类型组成的, 大小都是固定的. 我们只要计算出每个对象占用的内存空间就可以大致衡量整个程序占用的空间. <br><br />
-不过需要注意, 不同语言的内存分配和垃圾回收机制不同, 不同系统的内存地址大小也不同, 这会影响到我们的估算. 下面的分析是针对java虚拟机和64位架构机器(内存地址8字节)进行的.</p>
+<h2 id="1-sizeof">1. sizeof求函数空间占用</h2>
 
-<h2 id="_1">原始数据类型</h2>
-
-<p>Java中原始数据类型内存分配:</p>
-
-<pre><code>类型              字节
----------------------
-boolean            1
-byte               1
-char               2
-int                4
-float              4
-long               8
-double             8
-</code></pre>
-
-<h2 id="_2">对象</h2>
-
-<p>对象包含16字节的内存开销, 这些内存开销包含: <br></p>
-
-<ol>
-<li>指向对象类的引用: 引用一般占用一个内存地址, 8字节</li>
-<li>垃圾收集信息</li>
-<li>同步信息</li>
-</ol>
-
-<p>以整数封装对象分析为例(之前拆解包的时候提到过):</p>
-
-<pre><code>public class Integer
-{
-    private int x;
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+int function(int a) {
+    return a;
+}
+int main(void) {
+    int a = 10;
+    cout &lt;&lt; sizeof(function(a)) &lt;&lt; endl;
+    return 0;
 }
 </code></pre>
 
-<p>内存空间占用 = 对象内存开销(16字节) + int内存占用(4字节) + 填充字节(4字节) = 24字节 <br><br />
-注意, 一般内存的占用都会被填充为8字节(内存地址空间)的倍数.</p>
+<p>报错:</p>
 
-<h2 id="_3">链表</h2>
+<pre><code>error: invalid application of 'sizeof' to a function type
+</code></pre>
 
-<p>链表是嵌套的非静态类, 嵌套类需要额外的一个引用(8字节)指向外部类, 以链表Node类为例:</p>
+<p>资料:</p>
 
-<pre><code>public class Node
-{
-    private Item item;
-    Private Node next;
+<pre><code>http://stackoverflow.com/questions/4579574/how-can-i-get-the-size-of-a-c-function
+</code></pre>
+
+<p>结论:</p>
+
+<pre><code>You Can't 😊
+</code></pre>
+
+<h2 id="2-union">2. union共用体的大小计算</h2>
+
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+union {
+    int a[5],
+    char b,
+    double c
+} UnionObj;
+
+int main(void) {
+    cout &lt;&lt; sizeof(UnionObj) &lt;&lt; endl;
+    return 0;
 }
 </code></pre>
 
-<p>内存空间占用 = 对象内存开销(16字节) + 指向外部类的引用(8字节) + 指向Item对象引用(8字节) + 指向Node对象的引用(8字节) + 填充字节(0字节) = 40字节<br><br />
-这样, 可以算出前面几篇博客中谈到的链表实现整型下压栈的内存空间占用: Node类(40字节) + 长度纪录(4字节) + 对象开销(16字节) + 填充字节(4字节) = 64字节<br></p>
+<p>答案: 24 <br/><br />
+关键字: 共用体空间按占用内存空间最长的类型对齐(倍数),如果不对齐则补齐. <br/></p>
 
-<h2 id="_4">数组</h2>
+<h2 id="3-unionbig-endianlittle-endian">3. 用union判断系统是big endian还是little endian</h2>
 
-<p>首先需要明确, Java中数组被实现为对象. 一个原始数据类型的数组一般需要24字节的头信息(4字节保存长度, 4字节内存填充), 比如一个含有N个double值的数组内存占用为: 24 + 8N + x(填充字节). 对于M<em>N二维数组a, 需要注意a[M][]数组的元素是指向a[M][N]元素的引用, 每个引用是8字节, 所以共有8M个字节; a[M][]相当于一个一维数组, 此时内存额外开销(头信息)为24+24M; 假设这个二维数组存储的是double类型的对象, 则占用8MN大小的空间. 所以, 一个M</em>N的double数组内存占用是: 24 + 32M + 8MN 大小的内存空间.</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+union TEST {
+    short a; // 2个字节
+    char b[sizeof(short)];
+};
 
-<h2 id="_5">字符串对象</h2>
+int main(){
+    TEST test;
+    // 不能对共用体变量赋值, 只能对共用体中的变量赋值
+    test.a = 0x0102;  // 2字节数据
+    if(test.b[0] == 0x01 &amp;&amp; test.b[1] == 0x02) {
+        // 低地址放高字节, 高地址放低字节
+           cout &lt;&lt; "big endian" &lt;&lt; endl;
+    }
+    else { cout &lt;&lt; "little endian" &lt;&lt; endl; }
+}
+</code></pre>
 
-<p>Java中字符串对象是String类的实例, 一个String 类对象需要20字节的头信息</p>
+<p>我的电脑是little endian. bochs模拟的x86机子也是little endian,<br />
+目前几乎所有的网络协议都是采用big endian的方式来传输数据的.</p>
 
-<ol>
-<li>8字节对内部字符数组的引用</li>
-<li>4字节int纪录长度</li>
-<li>4字节int表示偏移量offset, 用来标记字符串和子串</li>
-<li>4字节散列值</li>
-</ol>
+<h2 id="4-dowhile0">4. 预处理: do&hellip;while(0)的使用</h2>
 
-<p>所以一个String对象不考虑内部char数组的空间占用为: 20 + 16 + 4 = 40字节. <br><br />
-需要注意的是String对象是不可变的, 所以String对象的字符数组可能会在多个字符对象间共享, 用于节约内存. <br/><br />
-考虑到一般情况, 一个String类型的对象内存空间占用为: 40 + 24 + 2N = 64 + 2N字节. <br></p>
+<p>使用do..while(0)相当于限定多行语句的宏, 避免替换为多行语句后产生错误</p>
 
-<h3 id="_6">字符串子串分析</h3>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+#define FOO(x) do {
+    statement one;
+    statement two;
+}while(0)
 
-<p>操作字符串时经常需要获取子串, 设想如果每个子串都是原字符串的部分拷贝(拷贝字符数组), 那么不仅需要额外的空间开销(子串的字符数组), 而且由于拷贝操作是线性时间(遍历), 当原字符串和子字符串规模很大时需要花费很长时间. 所以现代的编程语言(包括java)都采用别名(引用)的方式处理子字符串, 也就是子字符串的字符数组是共享原字符串的字符数组的, 而且根据子串头信息的偏移量和长度, 无论字符串规模多大, 都可以在常数时间内获取子串values[offset]~values[offset + count - 1]. 所以此时子串的内存空间占用只包含头信息(40字节)+字符数组的引用(8字节) = 48字节</p>
+int main(void) {
+    if (condition)
+        FOO(x)
+    else { 这样else就不会出错了... }
+}
+</code></pre>
 
-<h2 id="_7">总结</h2>
+<h2 id="5-gcc">5. gcc预定义宏</h2>
 
-<p>对所有对象内存占用的累计计算只能是估算, 因为一个程序在运行时是很复杂的, 比如多个字符串共享字符数组、对对象游离进行自动垃圾回收&hellip; 不过我们计算内存占用不是为了获得精确值, 而是为了比对, 和对时间的估算一样. 通过对空间和时间的估算, 我们就可以大致的对比出不同程序的好坏, 这也是算法分析的用处所在.</p>
+<p>有些宏还是很有作用的:)-&gt; https://gcc.gnu.org/onlinedocs/cpp/Standard-Predefined-Macros.html</p>
+
+<h2 id="6-cc">6. C和C++混合编程</h2>
+
+<pre><code>#include &lt;stdio.h&gt;
+int main() {
+    #define TO_LITERAL(text) TO_LITERAL_(text)
+    #define TO_LITERAL_(text) #text
+    #ifndef __cpluscplus
+        printf("a C program\n");
+    #else
+        printf("a C++ program\n__cpluscplus expands to \""
+                To_LITERAL(__cpluscplus) " \"\n");
+    #endif
+    return 0;
+}
+</code></pre>
+
+<p>结果:<br />
+    a C++ program<br />
+    __cpluscplus expands to &ldquo;1&rdquo;</p>
+
+<p>如果是在C++中调用C代码, 则把C代码放到extern中. 谁叫C++是C的超集呢&hellip;</p>
+
+<h2 id="7">7.  结构体里也可以有访问控制</h2>
+
+<pre><code>struct Student {
+public:
+    ....
+private:
+    ....
+private:
+    ....
+};
+</code></pre>
+
+<p>呃. 还是用类吧</p>
+
+<h2 id="8">8. 类对象存储空间的计算</h2>
+
+<h3 id="1">1. 空类</h3>
+
+<pre><code>class Cls {
+    /* 404 这里什么也没有 */
+};
+
+Cls obj;
+sizeof(obj) =&gt; 1
+</code></pre>
+
+<p>虽然什么也没做, 但是声明了对象, 对象就存在, 存在则需存储, 占用1byte的空间 <br/></p>
+
+<h3 id="2">2. 只有成员变量的类的存储空间计算</h3>
+
+<pre><code>class Cls {
+    int length, width, height;
+};
+
+Cls obj;
+sizeof(obj) =&gt; 12
+</code></pre>
+
+<p>3个int型成员变量, 占用12byte的空间 <br/></p>
+
+<h3 id="3">3. 有成员变量和静态成员变量</h3>
+
+<pre><code>class Cls {
+    int length, width, height;
+    static int count;
+};
+
+Cls obj;
+sizeof(obj) =&gt; 12
+</code></pre>
+
+<p>嗯, 所以静态成员变量是不占用对象的存储空间的, 而是在类创建后、对象初始化前就分配好内存了. <br/></p>
+
+<h3 id="4">4. 类中只有一个成员函数的存储空间计算</h3>
+
+<pre><code>class Cls {
+    int foo();
+}
+
+Cls obj;
+sizeof(obj) =&gt; 1
+</code></pre>
+
+<p>和空类对象一样, 所以成员函数是不占对象空间的. <br/></p>
+
+<h3 id="5">5. 类中构造函数、析构函数的空间占用情况</h3>
+
+<pre><code>class Cls {
+public:
+    Cls() {}
+    ~Cls(){}
+}
+
+Cls obj;
+sizeof(obj) =&gt; 1
+</code></pre>
+
+<p>构造和析构函数是不占用对象的内存空间的. <br/></p>
+
+<h3 id="6">6. 类中有虚的析构函数的空间计算</h3>
+
+<pre><code>class Cls {
+public:
+    Cls() {}
+    virtual ~Cls() {};
+};
+
+Cls obj;
+sizeof(obj) =&gt; 8
+</code></pre>
+
+<p>类中有一个或多个虚析构函数, 类需要维护指向虚函数表的指针, 64位机器上是8字节(地址)</p>
+
+<h3 id="7_1">7. 继承空类以及多重继承空类的存储空间计算</h3>
+
+<pre><code>class Cls {};
+class Cls2 {};
+class Cls3 : public Cls {};
+class Cls4 : public virtual Cls2 {};
+class Cls5 : public A, public B {};
+
+Cls obj1; Cls2 obj2; Cls3 obj3; Cls4 obj4; Cls5 obj5;
+sizeof(obj1) =&gt; 1
+sizeof(obj2) =&gt; 1
+sizeof(obj3) =&gt; 1
+sizeof(obj4) =&gt; 8
+sizeof(obj5) =&gt; 1
+</code></pre>
+
+<p>多重继承空类的对象, 仍然只占用1byte空间, 而virtual需要有指向虚函数表的指针,<br />
+所以占用8byte空间.</p>
+
+<h2 id="9-this">9. this指针</h2>
+
+<p>每个对象的数据成员都分别占用存储空间, 但是<strong>不同对象的成员函数共享同一个函数代码段</strong>,<br />
+代码段区分当前调用的成员时, 通过编译器隐式传入的this指针表示, 比如:</p>
+
+<pre><code>size_t member_function() {
+    return age;
+}
+</code></pre>
+
+<p>C++ 编译器会隐式的传入指向当前对象的this指针</p>
+
+<pre><code>size_t member_function(Box* this) {
+    return this-&gt;age
+}
+</code></pre>
+
+<p>所以 obj.member_function() 实际上是这样 obj.member_function(&amp;a) 调用的. 如此, 共享的代码段就知道当前调用的对象是哪个了. <br/><br />
+而静态成员函数是类创建后分配内存空间的, 与对象无关, 函数中也没有传入this指针.  所以通过</p>
+
+<pre><code>obj.staic_member_function()
+</code></pre>
+
+<p>实际上是obj所属的类去调用. <br/></p>
+
+<h2 id="10-cc">10. C++字符串和C字符串的转化</h2>
+
+<p>C++字符串通过String类实现; C字符串就是字符数组, 最后一个元素是&rsquo;\0&rsquo;标志着字符串的结尾. C++字符串末尾没有&rsquo;\0&rsquo;, 本质上是以字符作为元素的vector特化版本;<br/></p>
+
+<p><strong>C++ -&gt; C</strong> <br/></p>
+
+<pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+int main(void) {
+    string str = "Hello world!";
+    const char* cstr = str.c_str();  // C++字符串转C字符串
+    cout &lt;&lt; cstr &lt;&lt; endl; // Hello world!
+    str = "Abcd.";
+    cout &lt;&lt; cstr &lt;&lt; endl; // Abcd
+    return 0;
+}
+</code></pre>
+
+<p>注意, 因为cstr是一个指向str.c_str()内存区域的指针, str改变了, cstr也会改变, 显然我们不希望这样, 一个比较好的做法是把cstr的类容复制出来! <br/></p>
 
         </div>
     </div>
