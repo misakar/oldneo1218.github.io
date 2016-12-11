@@ -170,199 +170,146 @@
         
 <div class="post-body-wrapper">
     <div class="main_post">
-        <h1>背包、队列、栈的链表实现</h1>
-        <h3>2016-07-14 17:23:04</h3>
+        <h1>thinking in coroutines</h1>
+        <h3>2016-12-11 15:50:43</h3>
         <div class="post_body">
-            <h1 id="_1">链表</h1>
+            <h2 id="async-thinking-in-coroutines">async, thinking in coroutines</h2>
 
-<p>链表是一种应用广泛的抽象数据结构, Java使用引用将分散的节点&rdquo;链接&rdquo;在一起,<br />
-构成一个整体&ndash;链表. 链表可以作为数组的替代, 而且相比于数组,<br />
-向链表中插入和删除数据都更加方便. 实际情况下, 链式存储结构的应用会更广泛,<br />
-毕竟可以更灵活的运用内存.</p>
+<p>async即异步, 我认为这是后端编程中最重要的一块. 后端编程中处处需要面对I/O密集型环境:网络请求、数据库查询、磁盘读写&hellip; 同步程序下, 一步阻塞, 意味着一个用户需要花很长时间等待连接的处理, 甚至连接处理超时报异常. <br/><br />
+于是, 传统的单进程、单线程变成了异步非阻塞的多进程、单进程多线程, 达到多个连接多个I/O请求并发执行的效果, 甚者, 利用多核实现并行.(由于Python GIL的存在, I/O密集型线程并不能利用多核) <br/><br />
+然而, TCP连接是大量的(至少我希望是:)), 后端服务被更多的用户使用, 服务器就需要支持处理更多并发连接. 不过服务器支持的最大并发连接数是有限的, 因为并发执行程序需要操作系统进行执行流的调度(进程、线程), 需要额外的内存开销保存暂时下CPU的执行流环境(多线程相比于多进程的优势就体现出来了, 因为线程只需要维护自己的执行堆栈, 共享一个进程的环境, 因此理论上可以建立更多的并发线程). 有人测了一下, 一台服务器创建1万个进程, 操作系统就崩溃了&hellip; 这就是著名的C10K问题. 当然, 如果你有很多钱, 可以多买几台服务器, 这也就不是问题了&hellip; <br/><br />
+如果有这么一种执行流, 可以不创建这么多进/线程, 甚至不需要操作系统进行直接调度(操作系统都不知道这个执行流的存在), 那么把连接装到这个执行流上CPU执行, 理论上就可以支持更多的连接了!<br/><br />
+这个神奇的执行流就是协程(coroutine) <br/><br />
+这里, 我不想说协程的特性以及协程的创建, Python2中的协程. 想了解的话请参考:</p>
 
-<h2 id="_2">链表抽象数据类型的定义</h2>
+<ul>
+<li><a href="https://segmentfault.com/a/1190000000613814">一起阅读gevent源码</a></li>
+<li><a href="https://emptysqua.re/blog/links-for-how-python-coroutines-work/">Links for &ldquo;How Python Coroutines Work&rdquo;</a></li>
+</ul>
 
-<p>使用范型和嵌套类定义链表结构是非常简洁的:</p>
+<p>我想直接进入激动人心的部分: Python3中的asyncio, 使用魔法般的<code>async, await</code>!</p>
 
-<pre><code>private class Node
-{
-    Item item;  // 存储
-    Node next;  // 引用
-}
+<h2 id="async-in-real-world-asyncio">async in real world: asyncio</h2>
+
+<p>asyncio是Python创始人Guido亲自操刀编写的一个标准库模块, 用来处理异步IO(名字起的很好呢!), 结合了Python3最新的async, await语法. <br/><br />
+asyncio中包含了很多概念</p>
+
+<p><img alt="" src="https://camo.githubusercontent.com/ed2b805efaaa8c82b8fe231d2c05948501f23993/687474703a2f2f37786a3433312e636f6d312e7a302e676c622e636c6f7564646e2e636f6d2f254535254231253846254535254239253935254535254246254142254537253835254137253230323031362d31312d3133253230254534254238253842254535253844253838352e32322e30342e706e67" /></p>
+
+<p>不过不要被这张图吓到(我就被吓过一次&hellip;). asyncio的核心模型其实很简洁: 单线程的event_loop(loop), 以及作为调度执行单元的协程(task)</p>
+
+<p><img alt="" src="https://cloud.githubusercontent.com/assets/10671733/21079184/4449d49a-bfc4-11e6-96f3-2c1040531195.png" /></p>
+
+<p>举个例子 test.py</p>
+
+<pre><code>async def executor(i): # &lt;- it is a coroutine function that produce coroutine
+    print(i, datetime.datetime.now())
+    await asyncio.sleep(i)  # &lt;- it is a coroutine
+    return i, datetime.datetime.now()
+
+if __name__ == '__main__':
+    loop = asyncio.get_event_loop()
+    tasks = [loop.create_task(executor(i)) for i in range(3)]
+    try:
+        print('----- excuting ------')
+        loop.run_until_complete(asyncio.wait(tasks))
+        print('----- result ------')
+        for task in tasks:
+            print(*task.result())
+    finally:
+        loop.close()
 </code></pre>
 
-<p>注意⚠ </p>
+<p>执行:</p>
 
-<ol>
-<li>节点类Node定义为private, 因为节点是作为内部对象使用的</li>
-<li>Node实例化的对象, 是指向特定节点的引用</li>
-</ol>
-
-<h2 id="_3">一些对链表的操作</h2>
-
-<h3 id="_4">表头操作</h3>
-
-<h4 id="_5">添加表头</h4>
-
-<p>在链表中添加表头是十分方便的</p>
-
-<pre><code>Node oldfirst = first;  // 新建oldfirst引用, 保存旧的first node
-Node first = new Node();  // 新的first节点
-first.item = item;  // 数据存储
-first.next = oldfirst;  // 指向旧的first节点
+<pre><code>$ PYTHONASYNCIODEBUG=1 python3 test.py
 </code></pre>
 
-<p>添加表头数据和链表长度是没有关系的, 时间复杂度是常数时间.</p>
+<p><img alt="" src="https://cloud.githubusercontent.com/assets/10671733/21079208/96cd85e4-bfc5-11e6-9d32-312404b1c446.png" /></p>
 
-<h4 id="_6">删除表头</h4>
+<p>我们可以看到, 通过神奇的asyncio 这三个阻塞协程异步并发的执行. <br/><br />
+为什么asyncio具有如此魔力? 让我们再看看上面的asyncio调度模型图, 开脑洞联想一下单核CPU的多任务调度, 嗯, 越来越有意思了:) 魔力的核心在于并发! <br />
+可是上CPU执行的是线程啊, 难道线程还能分为更细的部分? 是的, 这就是协程, 所以协程也被叫做微线程. 当然了CPU以为自己每次调度的都是这个event loop线程, event loop把自己的执行权交给哪个部分(协程), 我们就不用管了, 只要一个await, 开启PYTHONASYNCIODEBUG, 我们就可以喝着咖啡, 看着协程执行了! 这些协程就是在异步并发的执行. 而且不像多线程抢着上CPU, 每个协程由event loop调度, event loop把执行权给谁, 谁就执行, 就像&rdquo;卑鄙的我&rdquo;(一部电影, 不是说我很卑鄙&hellip;)里面的小黄人们, 协同的干着各自的事情, 所以被称做协程(中华文化、博大精深&hellip;)! <br/><br />
+呼, 先舒一口气, 然而我还觉得不过瘾! asyncio到底是如何做到这一切的呢? 如何实现上图描述的调度模型的呢? 那就看源码吧! 结合前面举的test.py例子: <br/></p>
 
-<p>在链表中删除表头是十分方便的</p>
+<p>首先我们编写了一个协程函数executor用来创建协程, 调用asyncio.sleep(time)模拟阻塞(asyncio.sleep(time)是协程, 用await执行), 然后批量创建了3个协程, 通过loop.run_until_complete(asyncio.wait(tasks))执行.<br />
+loop.create_task(coroutine)会创建一个asyncio Task类的实例Task(coroutine, loop), Task类的部分源码如下:</p>
 
-<pre><code>first = first.next;  // 把first指向的第二个节点设为第一个节点
+<pre><code>class Task(futures.Future):
+    def __init__(self, coro, loop=None):
+        super().__init__(loop=loop)
+        ... ...
+        self._loop.call_soon(self._step)
+
+    def _step(self):
+        try:
+            result = next(self._coro)
+        except StopIteration as exc:
+            self.set_result(exc.value)
+        except BaseException as exc:
+            self.set_exception(exc)
+            raise
+        else:
+            ... ...
+            self._loop.call_soon(self._step)
 </code></pre>
 
-<p>删除表头是常数时间.</p>
+<p>核心在于<code>self._loop.call_soon(self._step)</code>, 这就利用了协程一个神奇的特性: 惰性执行, 即保存当前执行上下文, 通过程序(比如next)一步步执行.(具体如何实现的我不清楚, 需要更深入看Python yield源码). 此时一个event_loop单线程, 每个协程在这个event_loop上执行自己step, event_loop不断的切换执行权进行调度, 所以我联想到了操作系统的多任务调度, 不过前者是协作, 后者是抢占; 前者通过一个代理人(event loop)和操作系统打交道, 后者则每只都在操作系统中拥有一席之地. <br/><br />
+所以:</p>
 
-<h3 id="_7">表尾操作</h3>
-
-<h4 id="_8">添加表尾</h4>
-
-<p>在链表中添加表尾是十分方便的,<br />
-我们只需要将最后一个last节点的next指向新的last节点(原来是null)</p>
-
-<pre><code>Node oldlast = last;
-Node last = new Node();
-last.item = item;
-oldlast.next = last;
+<pre><code>try:
+    result = next(self._coro)
+except StopIteration as exc;
+    self.set_result(exc.value)
+else: 
+    slef._loop.call_soon(self._step)
 </code></pre>
 
-<p>添加表尾是常数时间.</p>
+<p>看到这里的时候, 一切都清晰无比了! </p>
 
-<h4 id="_9">删除表尾</h4>
+<h2 id="awesome-asyncio">awesome asyncio</h2>
 
-<p>删除表尾就比较麻烦了, 因为删除表尾需要知道倒数第二个元素,<br />
-也就是需要对列表进行遍历, 遍历的时间复杂度是与链表的长度成正比的, 很耗时.<br />
-所以一般避免对链表的表尾进行删除操作.  <br><br />
-使用双向链表可以避免这个问题;)</p>
+<p>asyncio虽然2014年才正式进入Python3.4的标准库, 但是现在已经有了比较完整的生态,<br />
+支持SSL、IPV6:<br />
+<br/></p>
 
-<h2 id="_10">实现</h2>
+<h3 id="_1">文档</h3>
 
-<h3 id="_11">栈</h3>
+<ul>
+<li><a href="https://docs.python.org/3/library/asyncio.html">asyncio</a></li>
+</ul>
 
-<pre><code>public class Stack&lt;Item&gt;
-{
-    private Node first;  // 栈顶
-    private int N;  // 栈种元素的数量
-    private class Node
-    {
-        Item item;
-        Node next;
-    }
-    public boolean isEmpty()
-        { return first == null; }
-    public int size()
-        { return N; }
-    public void push(Item item)
-    {
-        // 向表头插入数据
-        Node oldfirst = first;
-        first = new Node();
-        first.item = item;
-        first.next = oldfirst;
-        N++;
-    }
-    public Item pop()
-    {
-        // 删除表头数据
-        Item item = first.item;
-        first.next = first;
-        N--;
-        return item;
-    }
-}
-</code></pre>
+<h3 id="_2">有用的模块</h3>
 
-<p>通过对表头的操作, 使得push和pop都是常数时间, 而且, 链表的大小是动态的,<br />
-比起上一篇博客中费劲心思的数组扩容, 链表简直是完美.</p>
+<ul>
+<li>线程池 相对适合IO密集型场景</li>
+<li>进程池 相对适合CPU密集型场景</li>
+</ul>
 
-<h3 id="_12">队列</h3>
+<h3 id="web">Web开发</h3>
 
-<pre><code>public class Queue&lt;Item&gt;
-{
-    private Node last;  // 出队列
-    private Node first; // 入队列
-    private int N;  // 队列计数
-    private class Node
-    {
-        Item item;
-        Node next;
-    }
-    public boolean isEmpty()
-        { return N == 0; }
-    public int size()
-        { return N; }
-    public void enqueue(Item item)
-    {
-        // 向表尾添加数据
-        Node oldlast = last;
-        last = new Node();
-        last.item = item;
-        oldlast.next = last;
-        N++;
-    }
-    public Item dequeue()
-    {
-        // 删除表头数据
-        Item item = first.item;
-        first = first.next;
-        N--;
-        return item;
-    }
-}
-</code></pre>
+<ul>
+<li><a href="http://aiohttp.readthedocs.io/en/stable/">aiohttp</a> Asynchronous HTTP Client/Server</li>
+</ul>
 
-<h3 id="_13">背包</h3>
+<h3 id="_3">数据库</h3>
 
-<pre><code>import java.util.iterator
-public class Bag&lt;Item&gt; implements Iterable&lt;Item&gt;
-{
-    private Node first;
-    private class Node
-    {
-        Item item;
-        Node next;
-    }
-    public void add(Item item)
-    {
-        Node oldfirst = first;
-        first = new Node();
-        first.item = item;
-        first.next = oldfirst;
-    }
-    public Iterator&lt;Item&gt; iterator()
-    {
-        // 实现Iterable接口
-        // 返回一个Iterator对象
-        return new ListIterator();
-    }
-    public class ListIterator implements Iterator&lt;Item&gt;
-    {
-        // ListIterator迭代器
-        // 实现Iterator迭代器接口: hasNext, next, remove
-        private Node current = first;
-        public boolean hasNext()
-            { return current != null; }
-        public void remove() {}
-        public Item next()
-        {
-            // 迭代器遍历方法
-            Item item = current.item;
-            current = current.next;
-            return item;
-        }
-    }
-}
-</code></pre>
+<ul>
+<li><a href="https://github.com/aio-libs/aiopg">aiopg</a> aiopg is a library for accessing a PostgreSQL database from the asyncio</li>
+<li><a href="https://github.com/aio-libs/aiomysql">aiomysql</a> aiomysql is a library for accessing a MySQL database from the asyncio</li>
+</ul>
+
+<h3 id="asyncioevent-loop">加速asyncio的event loop</h3>
+
+<ul>
+<li><a href="https://github.com/MagicStack/uvloop">uvloop</a> Ultra fast implementation of asyncio event loop on top of libuv.</li>
+</ul>
+
+<h2 id="_4">参考</h2>
+
+<ul>
+<li><a href="https://www.youtube.com/watch?v=l4Nn-y9ktd4&amp;t=849s">thinking in coroutines</a></li>
+</ul>
 
         </div>
     </div>
