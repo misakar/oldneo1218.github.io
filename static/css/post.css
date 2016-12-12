@@ -33,8 +33,8 @@
 }
 
 .post_body ul, ol {
-    padding: 20px;
-    color: grey;
+    padding: 0px 0px 0px 60px;
+    color: blue;
 }
 
 .post_body tr:nth-child(even) {background-color: #f2f2f2}
