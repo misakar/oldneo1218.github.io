@@ -46,9 +46,14 @@
 .post_body pre {
     display: block;
     padding: 20px;
-    font-size: 14px;
+    font-size: 16px;
     white-space: pre-wrap;
     word-wrap: break-word;
+    background-color: black;
+}
+
+.post_body pre > code {
+    color: lightgreen;
 }
 
 .post_body p {
