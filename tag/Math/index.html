@@ -6,7 +6,7 @@
     
     <!-- google site -->
     <meta name="google-site-verification" content="BazmSJ55LY7H3RD6ttelAsE8PmOPjhkFnDdIjFMCiJE" />
-    <title>neo1218の家 - POST</title>
+    <title>neo1218の家 - 首页</title>
     <link rel="shortcut icon" href="http://7xj431.com1.z0.glb.clouddn.com/cropped-150-150-688417.png" type="image/x-icon" />
     <link rel="stylesheet" type="text/css" href=/static/css/base_site.css>
     <link rel="stylesheet" type="text/css" href=/static/css/index.css>
@@ -180,176 +180,102 @@
 <main>
     <div id="main">
         
-<div class="post-body-wrapper">
-    <div class="main_post">
-        <h1>常见的shell需求总结</h1>
-        <h3>2016-06-19 10:32:34</h3>
-        <div class="post_body">
-            <h1 id="shell">常见shell需求总结</h1>
-
-<p>这两天把自己的一个Python项目用shell改写, 这里记录项目中遇到的一些基本需求</p>
-
-<h2 id="1-shell">1. shell 函数</h2>
-
-<pre><code>function func_name()
-{
-    func_body
-}
-
-func_name  # 调用
-</code></pre>
-
-<p>function 关键字可以省略 <br/><br />
-<strong>函数接受参数</strong> <br/></p>
-
-<pre><code>function hello()
-{
-    echo "Hello $1"
-}
-
-hello "neo1218"  # 调用
-</code></pre>
-
-<p>$0 代表函数本身, $1-9 依顺序代表参数, 10个以上需要 ${10} 调用。<br/><br />
-函数的返回值只能是0~255<br />
-<br/><br />
-<strong>常用函数</strong> <br/><br />
-1. <strong><em>log 函数</em></strong> <br/></p>
-
-<pre><code>function log()
-{
-    printf " \033[36m%10s\033[0m: \033[90m%s\033[0m\n" $1 $2
-}
-</code></pre>
-
-<p>这里和Linux终端特殊颜色字符使用, 使log更&rdquo;好看&rdquo; <br/><br />
-2. <strong><em>error_exit 函数</em></strong> <br/></p>
-
-<pre><code>function error_exit()
-{
-    echo $ 2&gt;&amp;1
-    exit 1
-}
-</code></pre>
-
-<p>exit 表示退出状态, exit 0 表示成功退出, 非0表示异常退出.<br/><br />
-这里还有一个很有意思的地方: 2&gt;&amp;1 <br/><br />
-这里的1是<code>stdout</code> , 2是<code>stderr</code>, 2&gt;&amp;1 就是将标准错误重定向到标准输出,<br />
-用于错误处理。 <br/><br />
-3. <strong><em>help 系列函数</em></strong> <br/><br />
-即显示信息的函数<br/></p>
-
-<pre><code>function display_msg()
-{
-    cat &lt;&lt;-EOF
-    msg msg msg
-    msg msg msg
-EOF
-}
-</code></pre>
-
-<p>这样就可以很好的在终端显示信息啦 <br/><br />
-4. <strong><em>其他</em></strong> </br><br />
-shell函数还有一个很有意思的特性, 关于shell的作用域,<br />
-即函数中可以直接对全局变量进行修改, 这样就可以很方便的在不同函数中调用全局状态,<br />
-对于简单的面向过程程序是非常友好的。<br/><br />
-当然也可以在函数中定义局部变量<code>local lvar</code></p>
-
-<h2 id="2-shell">2. shell数组</h2>
-
-<p>shell支持数组的使用, 但是索引是从1开始&hellip;<br/><br />
-1. <strong>定义数组</strong> <br/><br />
-array=()<br />
-<br/><br />
-2. <strong>取数组元素值</strong> <br/><br />
-array[4]<br />
-<br/><br />
-3. <strong>获取数组的长度</strong> <br/><br />
-${#array[@]}<br />
-<br/><br />
-4. <strong>获取数组最后一个元素</strong> <br/><br />
-${array[${#array[@]}]}<br />
-<br/></p>
-
-<h2 id="3-shell">3. shell 判断</h2>
-
-<p>shell支持一系列的判断 <br/><br />
-1. <strong>判断路径是否存在</strong> <br/><br />
-<code>if test -d "$path"</code><br />
-<br/><br />
-2. <strong>判断字符串是否为空</strong> <br/><br />
-<code>if test -z $string</code><br />
-<br/><br />
-3. <strong>判断是否存在参数</strong> <br/><br />
-<code>if test $# -eq 0</code></p>
-
-<h2 id="4-case">4. case 语句</h2>
-
-<p>shell 支持case语句 </br></p>
-
-<pre><code>case $var in
-    xxx)  do sth ;;
-    xx|xxx) do sth ;;
-esac
-</code></pre>
-
-<h2 id="5">5. 处理用户参数</h2>
-
-<p>由于c是命令, 所以处理用户参数就是必须的, 这里给个总结模版</p>
-
-<pre><code>if test $# -eq 0; then
-    do sth
-else
-    while test $# -ne 0; do
-        case $args in
-            case1)
-                do sth ;;
-            -h|--help)
-                display_help ;;
-            -v|--version)
-                show_version ;;
-        esac
-        shift
-    done
-fi
-</code></pre>
-
-<h2 id="6">6. 其他</h2>
-
-<ol>
-<li><strong>$?</strong> 用于获取最近的返回值 <br/></li>
-<li><strong>赋值变量与被赋值变量中间的等号不含空格</strong> <br/></li>
-</ol>
-
-<h2 id="_1">总结</h2>
-
-<p>从python到shell, 是想挑战一下, 而且shell的速度快,<br />
-直接shell执行。像这种命令式面向过程的程序是很适合用shell编写的。</p>
-
+<div class="index-body-wrapper">
+    <div class="right-wrapper" style="float: right">
+        <div id="info_card">
+    <!-- info card -->
+    <div class="pic">
+        <img src="https://avatars2.githubusercontent.com/u/10671733?v=3&s=460"/>
+    </div>
+    <div class="name">
+        <a class="header">neo1218</a>
+        <h3>不想说话, 我很失败</h3>
+    </div>
+    <div class="address">
+        <div class="org">
+            <i class="fa fa-rocket" aria-hidden="true">
+                <a href="">&nbsp MuxiStudio</a>
+            </i>
+        </div>
+        <div class="add">
+            <i class="fa fa-venus-double" aria-hidden="true">
+                &nbsp 武汉CCNU
+            </i>
         </div>
     </div>
-    <div id="disqus_thread" style="padding: 50px"></div>
-    <script>
-    /**
-    * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-    * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
-    */
-    /*
-    var disqus_config = function () {
-    this.page.url = PAGE_URL; // Replace PAGE_URL with your page's canonical URL variable
-    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-    };
-    */
-    (function() { // DON'T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement('script');
-    
-    s.src = '//neo1218flask.disqus.com/embed.js';
-    
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-    })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+    <div class="web">
+        <div class="facebook" style="float: left; margin: 10px">
+            <a href= target="_blank"><div class="logo-facebook-small">
+  <div class="longpiece"></div>
+  <div class="longpiece-none"></div>
+  <div class="shortpiece"></div>
+  <div class="shortpiece-none"></div>
+</div></a>
+        </div>
+        <div class="github" style="float: left; margin: 10px">
+            <a href=https://github.com/neo1218/ target="_blank"><div class="logo-github-small">
+  <div class="ear-one-left"></div>
+  <div class="ear-one-none"></div>
+  <div class="ear-one-right"></div>
+  <div class="ear-two-right"></div>
+  <div class="ear-two-none"></div>
+  <div class="ear-two-left"></div>
+  <div class="body-bottom"></div>
+  <div class="body-left-none"></div>
+  <div class="body-right-none"></div>
+  <div class="tail-end"></div>
+  <div class="tail-body"></div>
+  <div class="tail-body-spots"></div>
+  <div class="tail-end-none"></div>
+  <div class="tail-body-none"></div>
+  <div class="tail-tip"></div>
+  <div class="body-left"></div>
+  <div class="body-right"></div>
+  <div class="head"></div>
+  <div class="chin-left"></div>
+  <div class="chin-right"></div>
+</div></a>
+        </div>
+        <div class="twitter" style="float: left; margin: 10px">
+            <a href=https://twitter.com/neo1218substack target="_blank"><div class="logo-twitter-small">
+  <div class="body"></div>
+  <div class="body-none"></div>
+  <div class="beak-bottom"></div>
+  <div class="beak-bottom-none"></div>
+  <div class="wing-bottom"></div>
+  <div class="wing-bottom-none"></div>
+  <div class="wing-middle"></div>
+  <div class="wing-middle-none"></div>
+  <div class="wing-top"></div>
+  <div class="wing-top-none"></div>
+  <div class="beak-top"></div>
+  <div class="beak-top-none"></div>
+  <div class="head"></div>
+</div></a>
+        </div>
+    </div>
+</div>
+    </div>
+    <div class="post-list">
+         
+                <div class="post">
+                    <div class="content">
+                        <div class="post-author-category">
+                            <a class="author" href=/tag/Math/>
+                                <img src="http://7xj431.com1.z0.glb.clouddn.com/cropped-150-150-688417.png"
+                                width=30px height=30px />
+                                <p>Math</p>
+                            </a>
+                        </div>
+                        <h2>
+                            <a href=/math-story-4/>重温数学的故事4</a>
+                        </h2>
+                        <!--div class="summary">...</div-->
+                        <div class="summary" style="color: lightblue;">2016-12-13 10:07:06</div>
+                    </div>
+               </div>
+         
+    </div>
 </div>
 
     </div>
