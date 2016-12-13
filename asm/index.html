@@ -208,7 +208,10 @@
 </li>
 <li><strong>与外设打交道</strong><ul>
 <li>控制显卡</li>
-<li>控制硬盘</li>
+<li>控制硬盘<ul>
+<li>用汇编读写硬盘</li>
+</ul>
+</li>
 <li>恶心的8259A中断代理芯片</li>
 </ul>
 </li>
@@ -453,7 +456,8 @@ mov byte [gs:0x01], '0xA4'  ; 高字节确定这个字符的属性(比如这里:
 <h3 id="_5">控制硬盘</h3>
 
 <p>硬盘可是很重要的一个东西, 计算机启动前, mbr、loader、kernel可都是放在硬盘里的, 再拷贝到内存低端1MB的相应位置. <br/><br />
-硬盘我之前已经总结过了, <a href="https://neo1218.github.io/disk/">戳这里</a>就行了!</p>
+硬盘我之前已经总结过了, <a href="https://neo1218.github.io/disk/">戳这里</a>就行了! <br/><br />
+更新一篇更细节的: <a href="https://neo1218.github.io/asm-disk/">用汇编读写硬盘</a></p>
 
 <h3 id="8259a">恶心的8259A中断代理芯片</h3>
 
@@ -853,8 +857,7 @@ void idt_init(void) {
 <p>这里把idt基址用lidt装进idtr寄存器就可以用了.<br/><br />
 <img alt="" src="https://cloud.githubusercontent.com/assets/10671733/21104627/3e4e0b16-c0c2-11e6-8d07-17794a68865d.png" /></p>
 
-<p>今天先写这么多吧.<br />
-<hr/></p>
+<hr/>
 
         </div>
     </div>
