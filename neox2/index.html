@@ -185,14 +185,11 @@
         <h1>neox2</h1>
         <h3>2016-09-26 20:37:44</h3>
         <div class="post_body">
-            <h1 id="_1">《操作系统真相还原》第二章小结</h1>
-
+            <div id="post">
+                <h1 id="_1">《操作系统真相还原》第二章小结</h1>
 <h2 id="_2">计算机的启动过程</h2>
-
 <h3 id="_3">以前的文章</h3>
-
 <p>我去年寒假(很久以前&hellip;)写过一篇博客:《计算机是如何启动的》, 我说到了计算机启动的大致过程</p>
-
 <pre><code>let's BOOTstrap ! |||||||||||||||||||||||||||!!!!!!!!!!!!!
 
 计算机的启动(BOOT)就是很自然的把以上概念串联起来的过程。在BOOT的过程中需要注意顺序和控制权这两个概念。
@@ -227,26 +224,20 @@
 </code></pre>
 
 <h3 id="_4">更细致的理解</h3>
-
 <p>通过阅读《操作系统真相还原》, 我对上面的概念有了更细致的理解, 不再局限于文字描述, 直接上内存:) </br></p>
-
 <blockquote>
 <p>计算机接通电源后, 读取固化(比如烧录)到ROM芯片上的BIOS程序</p>
 </blockquote>
-
 <p>其实这句话暗含了一个复杂的过程, 如图: </br><br />
 <img alt="bios" src="http://7xj431.com1.z0.glb.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-09-26%20%E4%B8%8B%E5%8D%8811.23.44.png" /> </br><br />
 计算机通过读取cs:ip寄存器中的地址找到程序执行的实际内存地址(实模式下段基址+段内偏移地址). 计算机启动时, cs:ip寄存器被强制初始化为f000:fff0, 对应实际的内存地址:0xffff0, 也就是bios的起始地址, 但是这段内存加载的程序是</p>
-
 <pre><code>jmpf 0xf000:e05b
 </code></pre>
-
 <p>:<br />
 所以跳转到 0xfe05b, 是的, 这才是bios程序真正的起始地址, 然后就是执行bios程序啦. </br><br />
 但是，为什么要跳转呢? </br><br />
 还是因为实模式, 实模式下(20位地址总线)最多可以访问1MB内存(2^20), 而bios的起始地址是0xffff0, 距离1MB的结束地址0xfffff只剩1个字节了, 自然放不下bios程序, 所以通过跳转来另辟蹊径. 至于为什么从0xffff0开始, 因为之前的内存有分配了:) </br><br />
 实模式下的内存布局</br></p>
-
 <table>
 <thead>
 <tr>
@@ -337,47 +328,28 @@
 </tr>
 </tbody>
 </table>
-
-<p></hr></p>
+</hr>
 
 <blockquote>
 <p>这时计算机读取该设备第一个扇区的512个字节, 如果最后两个字节是0x55和0xAA, 则可以启动。</p>
 </blockquote>
-
 <p>这里的读取还是bios读取, bios会检测0盘0道1扇区(CHS表示法)512字节的最后两个字节是否是魔数:0x55和0xaa来判断并加载MBR主引导程序到0x7c00处. 至于为什么是0x7c00, 历史原因😂 , 限于篇幅, 具体还是看书吧!</p>
-
 <h2 id="16">神奇的16进制</h2>
-
 <p>第2章概念不难理解, 难就难在各种内存大小和内存地址转换上, 比如上面的内存布局表. 推荐一篇文章:</p>
-
 <ul>
 <li><a href="http://www.i-programmer.info/babbages-bag/478-hexadecimal.html?start=1">hexadecimal</a></li>
 </ul>
-
 <p>还有就是编写MBR汇编代码时各种恶心的寄存器, </br></p>
-
 <ul>
 <li><a href="http://web.ics.purdue.edu/~jricha14/Interrupts/SREG.htm#Bit 7  -  I: Global Interrupt Enable">sreg</a></li>
 </ul>
-
 <h2 id="_5">截图留念:)</h2>
-
 <p><img alt="neo1218:)" src="http://7xj431.com1.z0.glb.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-09-26%20%E4%B8%8B%E5%8D%888.22.41.png" /></p>
-
+            </div>
         </div>
     </div>
     <div id="disqus_thread" style="padding: 50px"></div>
     <script>
-    /**
-    * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-    * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
-    */
-    /*
-    var disqus_config = function () {
-    this.page.url = PAGE_URL; // Replace PAGE_URL with your page's canonical URL variable
-    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-    };
-    */
     (function() { // DON'T EDIT BELOW THIS LINE
     var d = document, s = d.createElement('script');
     

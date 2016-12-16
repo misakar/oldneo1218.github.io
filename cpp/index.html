@@ -185,10 +185,9 @@
         <h1>我不知道的Cpp</h1>
         <h3>2016-12-07 19:30:01</h3>
         <div class="post_body">
-            <h1 id="cpp">我不知道的Cpp</h1>
-
+            <div id="post">
+                <h1 id="cpp">我不知道的Cpp</h1>
 <h2 id="1-sizeof">1. sizeof求函数空间占用</h2>
-
 <pre><code>#include &lt;iostream&gt;
 using namespace std;
 int function(int a) {
@@ -200,24 +199,16 @@ int main(void) {
     return 0;
 }
 </code></pre>
-
 <p>报错:</p>
-
 <pre><code>error: invalid application of 'sizeof' to a function type
 </code></pre>
-
 <p>资料:</p>
-
 <pre><code>http://stackoverflow.com/questions/4579574/how-can-i-get-the-size-of-a-c-function
 </code></pre>
-
 <p>结论:</p>
-
 <pre><code>You Can't 😊
 </code></pre>
-
 <h2 id="2-union">2. union共用体的大小计算</h2>
-
 <pre><code>#include &lt;iostream&gt;
 using namespace std;
 union {
@@ -231,12 +222,9 @@ int main(void) {
     return 0;
 }
 </code></pre>
-
 <p>答案: 24 <br/><br />
 关键字: 共用体空间按占用内存空间最长的类型对齐(倍数),如果不对齐则补齐. <br/></p>
-
 <h2 id="3-unionbig-endianlittle-endian">3. 用union判断系统是big endian还是little endian</h2>
-
 <pre><code>#include &lt;iostream&gt;
 using namespace std;
 union TEST {
@@ -255,14 +243,10 @@ int main(){
     else { cout &lt;&lt; "little endian" &lt;&lt; endl; }
 }
 </code></pre>
-
 <p>我的电脑是little endian. bochs模拟的x86机子也是little endian,<br />
 目前几乎所有的网络协议都是采用big endian的方式来传输数据的.</p>
-
 <h2 id="4-dowhile0">4. 预处理: do&hellip;while(0)的使用</h2>
-
 <p>使用do..while(0)相当于限定多行语句的宏, 避免替换为多行语句后产生错误</p>
-
 <pre><code>#include &lt;iostream&gt;
 using namespace std;
 #define FOO(x) do {
@@ -276,13 +260,9 @@ int main(void) {
     else { 这样else就不会出错了... }
 }
 </code></pre>
-
 <h2 id="5-gcc">5. gcc预定义宏</h2>
-
 <p>有些宏还是很有作用的:)-&gt; https://gcc.gnu.org/onlinedocs/cpp/Standard-Predefined-Macros.html</p>
-
 <h2 id="6-cc">6. C和C++混合编程</h2>
-
 <pre><code>#include &lt;stdio.h&gt;
 int main() {
     #define TO_LITERAL(text) TO_LITERAL_(text)
@@ -296,15 +276,11 @@ int main() {
     return 0;
 }
 </code></pre>
-
 <p>结果:<br />
     a C++ program<br />
     __cpluscplus expands to &ldquo;1&rdquo;</p>
-
 <p>如果是在C++中调用C代码, 则把C代码放到extern中. 谁叫C++是C的超集呢&hellip;</p>
-
 <h2 id="7">7.  结构体里也可以有访问控制</h2>
-
 <pre><code>struct Student {
 public:
     ....
@@ -314,13 +290,9 @@ private:
     ....
 };
 </code></pre>
-
 <p>呃. 还是用类吧</p>
-
 <h2 id="8">8. 类对象存储空间的计算</h2>
-
 <h3 id="1">1. 空类</h3>
-
 <pre><code>class Cls {
     /* 404 这里什么也没有 */
 };
@@ -328,11 +300,8 @@ private:
 Cls obj;
 sizeof(obj) =&gt; 1
 </code></pre>
-
 <p>虽然什么也没做, 但是声明了对象, 对象就存在, 存在则需存储, 占用1byte的空间 <br/></p>
-
 <h3 id="2">2. 只有成员变量的类的存储空间计算</h3>
-
 <pre><code>class Cls {
     int length, width, height;
 };
@@ -340,11 +309,8 @@ sizeof(obj) =&gt; 1
 Cls obj;
 sizeof(obj) =&gt; 12
 </code></pre>
-
 <p>3个int型成员变量, 占用12byte的空间 <br/></p>
-
 <h3 id="3">3. 有成员变量和静态成员变量</h3>
-
 <pre><code>class Cls {
     int length, width, height;
     static int count;
@@ -353,11 +319,8 @@ sizeof(obj) =&gt; 12
 Cls obj;
 sizeof(obj) =&gt; 12
 </code></pre>
-
 <p>嗯, 所以静态成员变量是不占用对象的存储空间的, 而是在类创建后、对象初始化前就分配好内存了. <br/></p>
-
 <h3 id="4">4. 类中只有一个成员函数的存储空间计算</h3>
-
 <pre><code>class Cls {
     int foo();
 }
@@ -365,11 +328,8 @@ sizeof(obj) =&gt; 12
 Cls obj;
 sizeof(obj) =&gt; 1
 </code></pre>
-
 <p>和空类对象一样, 所以成员函数是不占对象空间的. <br/></p>
-
 <h3 id="5">5. 类中构造函数、析构函数的空间占用情况</h3>
-
 <pre><code>class Cls {
 public:
     Cls() {}
@@ -379,11 +339,8 @@ public:
 Cls obj;
 sizeof(obj) =&gt; 1
 </code></pre>
-
 <p>构造和析构函数是不占用对象的内存空间的. <br/></p>
-
 <h3 id="6">6. 类中有虚的析构函数的空间计算</h3>
-
 <pre><code>class Cls {
 public:
     Cls() {}
@@ -393,11 +350,8 @@ public:
 Cls obj;
 sizeof(obj) =&gt; 8
 </code></pre>
-
 <p>类中有一个或多个虚析构函数, 类需要维护指向虚函数表的指针, 64位机器上是8字节(地址)</p>
-
 <h3 id="7_1">7. 继承空类以及多重继承空类的存储空间计算</h3>
-
 <pre><code>class Cls {};
 class Cls2 {};
 class Cls3 : public Cls {};
@@ -411,41 +365,28 @@ sizeof(obj3) =&gt; 1
 sizeof(obj4) =&gt; 8
 sizeof(obj5) =&gt; 1
 </code></pre>
-
 <p>多重继承空类的对象, 仍然只占用1byte空间, 而virtual需要有指向虚函数表的指针,<br />
 所以占用8byte空间.</p>
-
 <h2 id="9-this">9. this指针</h2>
-
 <p>每个对象的数据成员都分别占用存储空间, 但是<strong>不同对象的成员函数共享同一个函数代码段</strong>,<br />
 代码段区分当前调用的成员时, 通过编译器隐式传入的this指针表示, 比如:</p>
-
 <pre><code>size_t member_function() {
     return age;
 }
 </code></pre>
-
 <p>C++ 编译器会隐式的传入指向当前对象的this指针</p>
-
 <pre><code>size_t member_function(Box* this) {
     return this-&gt;age
 }
 </code></pre>
-
 <p>所以 obj.member_function() 实际上是这样 obj.member_function(&amp;a) 调用的. 如此, 共享的代码段就知道当前调用的对象是哪个了. <br/><br />
 而静态成员函数是类创建后分配内存空间的, 与对象无关, 函数中也没有传入this指针.  所以通过</p>
-
 <pre><code>obj.staic_member_function()
 </code></pre>
-
 <p>实际上是obj所属的类去调用. <br/></p>
-
 <h2 id="10-cc">10. C++字符串和C字符串的转化</h2>
-
 <p>C++字符串通过String类实现; C字符串就是字符数组, 最后一个元素是&rsquo;\0&rsquo;标志着字符串的结尾. C++字符串末尾没有&rsquo;\0&rsquo;, 本质上是以字符作为元素的vector特化版本;<br/></p>
-
 <p><strong>C++ -&gt; C</strong> <br/></p>
-
 <pre><code>#include &lt;iostream&gt;
 #include &lt;string&gt;
 using namespace std;
@@ -458,23 +399,12 @@ int main(void) {
     return 0;
 }
 </code></pre>
-
 <p>注意, 因为cstr是一个指向str.c_str()内存区域的指针, str改变了, cstr也会改变, 显然我们不希望这样, 一个比较好的做法是把cstr的类容复制出来! <br/></p>
-
+            </div>
         </div>
     </div>
     <div id="disqus_thread" style="padding: 50px"></div>
     <script>
-    /**
-    * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-    * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
-    */
-    /*
-    var disqus_config = function () {
-    this.page.url = PAGE_URL; // Replace PAGE_URL with your page's canonical URL variable
-    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-    };
-    */
     (function() { // DON'T EDIT BELOW THIS LINE
     var d = document, s = d.createElement('script');
     

@@ -185,22 +185,16 @@
         <h1>Flask编写API的核心思想</h1>
         <h3>2016-06-19 10:03:46</h3>
         <div class="post_body">
-            <blockquote>
+            <div id="post">
+                <blockquote>
 <p>这篇文章，是我的自言自语</p>
 </blockquote>
-
 <h2 id="q-api">Q: 为什么需要API</h2>
-
 <p><strong>A</strong>: 当客户端与服务器端分离时, 需要通过API传递资源</p>
-
 <h2 id="q">Q: 什么是资源</h2>
-
 <p><strong>A</strong>: 即数据库中的数据</p>
-
 <h2 id="q_1">Q: 如何表示资源</h2>
-
 <p><strong>A</strong>: 使用json的方式表示, 以<strong>键值的方式</strong>表示一个资源, 每一个键代表资源的一个属性; 使用数组(列表)表示资源的集合, 例如</p>
-
 <pre><code>[
     {
         'id': 1,
@@ -212,26 +206,18 @@
     }
 ]
 </code></pre>
-
 <h2 id="q-http">Q: 如何使用HTTP的方式对资源进行操作</h2>
-
 <p><strong>A</strong>: 涉及HTTP方法映射: 如下表</p>
-
 <pre><code>GET ------&gt; 获取(集合,特定资源)
 POST -----&gt; 创建(特定资源)
 PUT ------&gt; 更新(特定资源)
 DELETE ---&gt; 删除(特定资源)
 </code></pre>
-
 <h2 id="q-flaskapi">Q: 那么flask编写API的核心是什么?</h2>
-
 <p><strong>A</strong>: <br/></p>
-
 <h3 id="1">1. 提供资源</h3>
-
 <p>flask需要把数据库资源通过json的形式提供出去, 所以需要在数据库Model中定义<code>to_json方法</code>, 以<br />
 json的形式表示数据库数据, 以User类为例</p>
-
 <pre><code>class User(db.Model):
     ......
     def to_json(self):
@@ -242,12 +228,9 @@ json的形式表示数据库数据, 以User类为例</p>
         return json_user
     ......
 </code></pre>
-
 <h3 id="2-json">2. 接受json数据</h3>
-
 <p>flask需要接受客户端发送的json数据从而用于创建资源,<br />
 所以需要在数据库Model中定义<code>from_json方法</code></p>
-
 <pre><code>class User(db.Model):
     ......
     @staticmethod
@@ -259,9 +242,7 @@ json的形式表示数据库数据, 以User类为例</p>
         return user
     ......
 </code></pre>
-
 <p>并在API代码中搭配<a href=""><code>request.get_json()</code></a>使用</p>
-
 <pre><code>/api/users.py
 
 from flask import request
@@ -272,11 +253,8 @@ def create_user():
     db.session.add(user)
     db.session.commit()
 </code></pre>
-
 <h3 id="http">HTTP方法与操作对应</h3>
-
 <p>还是以用户资源为例:</p>
-
 <pre><code>@api.route('/users/', methods=['GET'])
 def get_users():
     """获取用户资源集合"""
@@ -302,25 +280,13 @@ def delete_id_user(id):
     """删除特定id用户"""
     pass
 </code></pre>
-
 <h2 id="q-flaskapijsonhttp">Q: 所以说flask编写API的核心思想就是<strong>以json的方式表示和接收资源并将相应操作映射到http方法上从而操纵资源</strong>, 是吗?</h2>
-
 <p><strong>A</strong>: 你这不是废话吗....</p>
-
+            </div>
         </div>
     </div>
     <div id="disqus_thread" style="padding: 50px"></div>
     <script>
-    /**
-    * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-    * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
-    */
-    /*
-    var disqus_config = function () {
-    this.page.url = PAGE_URL; // Replace PAGE_URL with your page's canonical URL variable
-    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-    };
-    */
     (function() { // DON'T EDIT BELOW THIS LINE
     var d = document, s = d.createElement('script');
     

@@ -185,38 +185,29 @@
         <h1>浅谈Python的特性和设计模式</h1>
         <h3>2016-06-19 10:34:31</h3>
         <div class="post_body">
-            <p><img alt="Python" src="http://7xj431.com1.z0.glb.clouddn.com/0eb30f2442a7d9331abfc6f3ad4bd11373f0011e.jpg.png" /><br />
+            <div id="post">
+                <p><img alt="Python" src="http://7xj431.com1.z0.glb.clouddn.com/0eb30f2442a7d9331abfc6f3ad4bd11373f0011e.jpg.png" /><br />
 <hr/></p>
-
 <h2 id="python">面向对象的Python</h2>
-
 <blockquote>
 <p>Python是一门面向对象的语言</p>
 </blockquote>
-
 <h3 id="python_1">其实是&rdquo;一切皆为对象的Python&rdquo;</h3>
-
 <p>上面那句话实际上带有很强的误导性, Python与其说是面向对象, 不如说是</p>
-
 <blockquote>
 <p>一切皆为对象</p>
 </blockquote>
-
 <p>是的, 在Python中函数是对象、类型是对象, 甚至类也是对象。&rdquo;一切皆为对象&rdquo;<br />
 给Python带来了很多有意思的特性: 比如函数可以作为另一个函数的参数,<br />
 函数可以被函数赋值&hellip;这些特性也造就了很多有意思的python设计模式:<br />
 装饰器、上下文管理器&hellip;</p>
-
 <h3 id="_1">面向对象是必须的吗?</h3>
-
 <p>我之所以说<code>Python是一门面向对象的语言</code>这句话具有误导性,<br />
 是因为面向对象的Python是有用的,但不是必须的。这和Java这门<code>真正的面向对象语言</code>有很大区别,<br />
 所以当你愉快的写完一个python模块时,发现自己没有用面向对象,<br />
 甚至class关键字都没有出现时, 也不必惊讶甚至怀疑,<br />
 因为Python适合的领域并不都是面向对象适合的领域。</p>
-
 <h3 id="_2">谈谈函数式编程</h3>
-
 <p>Python还有一把锋利的刀&ndash;函数式编程。函数式就是用一个个功能上相对独立的函数组织代码, 函数之间通过变量和返回值进行互动,<br />
 或者有些情况下根本不需要函数间互动。<br/><br />
 函数式编程和面向对象编程最大的区别就在于<strong>状态</strong>, 面向对象是通过对象进行操作,<br />
@@ -230,13 +221,10 @@
 或者就是纯功能实现的架构, 这时采用函数式编程显然是更简洁的方法, 比如mana,<br />
 mana其实就是一个命令集和Flask架构的拆分, 没有多少状态需要记录,<br />
 唯一要记录的项目根路径也从函数内部对全局变量的操作改成调用系统<strong>os.getcwd()</strong>纯函数。<br/></p>
-
 <h2 id="_3">最美妙的装饰器</h2>
-
 <p>装饰器是我最喜欢的Python模式没有之一, 因为装饰器是真正的<strong>简洁优雅</strong>,<br />
 装饰器的实现不是偶然, 或者说是立足于 <strong>函数是对象</strong> 和 <strong>@语法糖</strong> 这两个特性: <br/><br />
 <strong>&ndash;&gt; 函数是对象:</strong></p>
-
 <pre><code>def func():
     print "I am func, haha"
 
@@ -247,10 +235,8 @@ def decorator(func):
 
 func = decorator(func)
 </code></pre>
-
 <p><hr/><br />
 <strong>&ndash;&gt; @语法糖:</strong></p>
-
 <pre><code>func = decorator(func)
         ||
         \/
@@ -258,16 +244,13 @@ func = decorator(func)
 def func():
     print "I am func, haha"
 </code></pre>
-
 <p><strong>@decorator</strong> 就是这么美妙!<br />
 装饰器可以在主函数体(func)不被修改的情况下对主函数进行装饰,<br />
 就像给一个人化妆一样, 或者给他穿上一件好看的衣服,<br />
 当然,在某些情况下就像是给门加上了一块锁。<br/></p>
-
 <p>我一直在思考能不能写一个纯装饰器式的Python Web框架, APP只要实现wsgi接口,<br />
 剩下的功能视图、路由、前端模版、或者插件集成、中间件集成全部由框架提供的装饰器解决。当然这样写出来的<br />
 代码不一定好看&hellip;(头重脚轻)</p>
-
 <pre><code>@app.add('auth', AuthCode)
 @app.route('/')
 @app.views('index.html')
@@ -275,13 +258,10 @@ def func():
 def index():
     return {}
 </code></pre>
-
 <h2 id="_4">上下文管理器</h2>
-
 <p>上下文管理器和with语句使用,<br />
 程序员只需要关注主要功能实现,对于进入和退出的上下文接口则由上下文管理器自己处理。<br/><br />
 <strong>&ndash;&gt; 类实现</strong></p>
-
 <pre><code>class MyOpen(object):
     def __init__(self, filename):
         self.file = open(filename)
@@ -295,14 +275,11 @@ def index():
 with MyOpen('filename') as f:
     f.read()
 </code></pre>
-
 <p>MyOpen(&lsquo;filename&rsquo;)会实例化一个Python对象,<br />
 with语句调用<code><strong>enter</strong></code>方法将self.file属性传给f,<br />
 然后在with语句内对f进行操作,<br />
 with结束后会自动调用类的<code><strong>exit</strong></code>方法。</p>
-
 <p><strong>&ndash;&gt; 函数实现(是时候体现装饰器的强大了)</strong></p>
-
 <pre><code>from contextlib import contextmanager
 
 @contextmanager
@@ -316,32 +293,18 @@ def my_open(filename):
 with my_open(filename) as f:
     f.read()
 </code></pre>
-
 <p>这时进入with语句, 会把yield了的file对象传给f,<br />
 然后在with语句内对f对象进行操作,在with语句结束时会调用finally语句的close方法。</p>
-
 <h2 id="_5">说说弱类型</h2>
-
 <p>既然是弱类型, 自然没有纠结的必要。所以切记: <strong>不要在Python中谈论类型</strong>,<br />
 否则你会争论纠结1天(因为第二天你会发现没必要在争了)。</p>
-
 <p><hr/><br />
 &hellip;the end</p>
-
+            </div>
         </div>
     </div>
     <div id="disqus_thread" style="padding: 50px"></div>
     <script>
-    /**
-    * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-    * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
-    */
-    /*
-    var disqus_config = function () {
-    this.page.url = PAGE_URL; // Replace PAGE_URL with your page's canonical URL variable
-    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-    };
-    */
     (function() { // DON'T EDIT BELOW THIS LINE
     var d = document, s = d.createElement('script');
     

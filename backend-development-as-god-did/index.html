@@ -185,21 +185,18 @@
         <h1>像&#34;上帝那样&#34;开发后端应用</h1>
         <h3>2016-12-11 15:52:04</h3>
         <div class="post_body">
-            <blockquote>
+            <div id="post">
+                <blockquote>
 <p>1 起初神创造天地。<br />
 2 地是空虚混沌。渊面黑暗。神的灵运行在水面上。 <br />
 3 神说，要有光，就有了光。 <br />
 &ndash; 《旧约》创世纪</p>
 </blockquote>
-
 <p>&ldquo;要有光就有了光&rdquo;, 好潇洒! 多么希望我们后端开发者在开发的时候也能像上帝一样说一句: 我要mysql数据库, 我要redis&hellip;它们就安装好了跑在端口上等你&hellip;<br/><br />
 好吧, 其实我已经掌握了&rdquo;上帝的魔力&rdquo;, 实现这种魔力的圣器就是docker! <br/></p>
-
 <h2 id="flaskdocker-compose">flask与docker-compose的魔法</h2>
-
 <p>有了docker-compose, 你只需要说明自己需要什么, 然后docker-compose build, 这些东西就会被安装到容器里运行. <br/><br />
 所以, 开发的时候定义一份 docker-compse.dev.yml 像上帝一样说自己想要什么.</p>
-
 <pre><code>#-------------------- celery --------------------------
 celery:
     build: .
@@ -239,28 +236,17 @@ redis3:
     ports:
         - "7383:6383"
 </code></pre>
-
 <p>flask应用跑在本地, 应用内部链接到容器运行的公有端口就行了.<br/><br />
 这样仅仅需要安装flask扩展, 既可以利用flask hot reload和debug特性, 不用频繁rebuild容器, 又可以免去了繁琐的环境重复安装! <br/><br />
 不过不太好的一点, 如果你修改了环境相关的代码, 需要rebuild环境容器. <br/><br />
 测试、部署的时候, 把开发时跑在本地的flask应用打包到容器里, 就OK啦. <br/><br />
 自从有了docker/docker-compose, 匣子每天都要部署迭代好几次, 因为好用到开心啊, 写生产代码都有动力了! <br/><br />
 好吧, 这是一篇docker安利文, bye.</p>
-
+            </div>
         </div>
     </div>
     <div id="disqus_thread" style="padding: 50px"></div>
     <script>
-    /**
-    * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-    * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
-    */
-    /*
-    var disqus_config = function () {
-    this.page.url = PAGE_URL; // Replace PAGE_URL with your page's canonical URL variable
-    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-    };
-    */
     (function() { // DON'T EDIT BELOW THIS LINE
     var d = document, s = d.createElement('script');
     

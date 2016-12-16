@@ -185,82 +185,57 @@
         <h1>背包、队列、栈的链表实现</h1>
         <h3>2016-07-14 17:23:04</h3>
         <div class="post_body">
-            <h1 id="_1">链表</h1>
-
+            <div id="post">
+                <h1 id="_1">链表</h1>
 <p>链表是一种应用广泛的抽象数据结构, Java使用引用将分散的节点&rdquo;链接&rdquo;在一起,<br />
 构成一个整体&ndash;链表. 链表可以作为数组的替代, 而且相比于数组,<br />
 向链表中插入和删除数据都更加方便. 实际情况下, 链式存储结构的应用会更广泛,<br />
 毕竟可以更灵活的运用内存.</p>
-
 <h2 id="_2">链表抽象数据类型的定义</h2>
-
 <p>使用范型和嵌套类定义链表结构是非常简洁的:</p>
-
 <pre><code>private class Node
 {
     Item item;  // 存储
     Node next;  // 引用
 }
 </code></pre>
-
 <p>注意⚠ </p>
-
 <ol>
 <li>节点类Node定义为private, 因为节点是作为内部对象使用的</li>
 <li>Node实例化的对象, 是指向特定节点的引用</li>
 </ol>
-
 <h2 id="_3">一些对链表的操作</h2>
-
 <h3 id="_4">表头操作</h3>
-
 <h4 id="_5">添加表头</h4>
-
 <p>在链表中添加表头是十分方便的</p>
-
 <pre><code>Node oldfirst = first;  // 新建oldfirst引用, 保存旧的first node
 Node first = new Node();  // 新的first节点
 first.item = item;  // 数据存储
 first.next = oldfirst;  // 指向旧的first节点
 </code></pre>
-
 <p>添加表头数据和链表长度是没有关系的, 时间复杂度是常数时间.</p>
-
 <h4 id="_6">删除表头</h4>
-
 <p>在链表中删除表头是十分方便的</p>
-
 <pre><code>first = first.next;  // 把first指向的第二个节点设为第一个节点
 </code></pre>
-
 <p>删除表头是常数时间.</p>
-
 <h3 id="_7">表尾操作</h3>
-
 <h4 id="_8">添加表尾</h4>
-
 <p>在链表中添加表尾是十分方便的,<br />
 我们只需要将最后一个last节点的next指向新的last节点(原来是null)</p>
-
 <pre><code>Node oldlast = last;
 Node last = new Node();
 last.item = item;
 oldlast.next = last;
 </code></pre>
-
 <p>添加表尾是常数时间.</p>
-
 <h4 id="_9">删除表尾</h4>
-
 <p>删除表尾就比较麻烦了, 因为删除表尾需要知道倒数第二个元素,<br />
 也就是需要对列表进行遍历, 遍历的时间复杂度是与链表的长度成正比的, 很耗时.<br />
 所以一般避免对链表的表尾进行删除操作.  <br><br />
 使用双向链表可以避免这个问题;)</p>
-
 <h2 id="_10">实现</h2>
-
 <h3 id="_11">栈</h3>
-
 <pre><code>public class Stack&lt;Item&gt;
 {
     private Node first;  // 栈顶
@@ -293,12 +268,9 @@ oldlast.next = last;
     }
 }
 </code></pre>
-
 <p>通过对表头的操作, 使得push和pop都是常数时间, 而且, 链表的大小是动态的,<br />
 比起上一篇博客中费劲心思的数组扩容, 链表简直是完美.</p>
-
 <h3 id="_12">队列</h3>
-
 <pre><code>public class Queue&lt;Item&gt;
 {
     private Node last;  // 出队列
@@ -332,9 +304,7 @@ oldlast.next = last;
     }
 }
 </code></pre>
-
 <h3 id="_13">背包</h3>
-
 <pre><code>import java.util.iterator
 public class Bag&lt;Item&gt; implements Iterable&lt;Item&gt;
 {
@@ -375,21 +345,11 @@ public class Bag&lt;Item&gt; implements Iterable&lt;Item&gt;
     }
 }
 </code></pre>
-
+            </div>
         </div>
     </div>
     <div id="disqus_thread" style="padding: 50px"></div>
     <script>
-    /**
-    * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-    * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
-    */
-    /*
-    var disqus_config = function () {
-    this.page.url = PAGE_URL; // Replace PAGE_URL with your page's canonical URL variable
-    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-    };
-    */
     (function() { // DON'T EDIT BELOW THIS LINE
     var d = document, s = d.createElement('script');
     
