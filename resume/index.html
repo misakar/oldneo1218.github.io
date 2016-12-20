@@ -182,70 +182,88 @@
         
 <div class="post-body-wrapper">
     <div class="main_post">
-        <h1>Flask配置celery定时任务</h1>
-        <h3>2016-06-19 10:39:12</h3>
+        <h1>简历-&gt;对现在的自己做个了解</h1>
+        <h3>2016-12-20 22:11:41</h3>
         <div class="post_body">
             <div id="post">
-                <p>本篇博客主要通过<strong>代码</strong>总结一下, 如何在一个Flask项目中使用Celery队列定时执行任务.</p>
-<h2 id="celery">配置Celery</h2>
-<p>配置项:<br><br />
-<a href="http://docs.celeryproject.org/en/master/getting-started/first-steps-with-celery.html#choosing-a-broker">Broker</a>(使用redis)<code>CELERY_BROKER_URL=&rsquo;redis://localhost:6379&rsquo;</code><br/><br />
-<a href="http://docs.celeryproject.org/en/master/getting-started/first-steps-with-celery.html#keeping-results">Backend</a>(使用redis)<code>CELERY_RESULT_BACKEND=&rsquo;redis://localhost:6379&rsquo;&lt;/code</p>
-<h2 id="make_celery">编写make_celery工厂函数</h2>
-<pre><code class="python">    from celery import Celery
-
-    def make_celery(app):
-        celery = Celery(app.import_name, broker=app.config['CELERY_BROKER_URL'])
-        celery.conf.update(app.config)
-        TaskBase = celery.Task
-        class ContextTask(TaskBase):
-            abstruct = True
-            def __call__(self, *args, **keywords):
-                with app.app_context():
-                    return TaskBase.__call__(self, *args, **keywords)
-        celery.Task = ContextTask
-        return celery
-</code></pre>
-
-<p>这个工厂函数做了一点手脚(ContextTask), 这样就可以在celery task中使用flask对象(app context)</p>
-<h2 id="task">编写task</h2>
-<p>使用@celery.task装饰器编写celery任务</p>
-<pre><code class="python">    celery = make_celery(app)
-
-    @celery.task(name=printy)
-    def printy():
-        print &quot;hahahahaha&quot;
-</code></pre>
-
-<h2 id="celery_1">定时celery任务</h2>
-<p>使用<code>CELERYBEAT_SCHEDULE</code>配置celery任务定时</p>
-<pre><code>from datetime import timedelta
-
-CELERYBEAT_SCHEDULE = {
-    'printy': {
-        'task': 'printy',
-        'schedule': timedelta(seconds=10)
-    },
-}
-</code></pre>
-<p>这里设置printy任务每隔10s触发一次.<br/><br />
-因为在<code>make_celery</code>函数中<code>celery.conf.update(app.config)</code><br />
-所以如果希望celery读取CELERYBEAT_SCHEDULE, 把CELERYBEAT_SCHEDULE放到flask app的配置中就行了.</p>
-<h2 id="celery_2">启动celery</h2>
-<p>依次启动:举个例子<br/></p>
-<ol>
-<li>flask project: <code>python manage.py runserver</code></li>
-<li>redis(backend): <code>redis-server &ndash;port 6380</code></li>
-<li>redis(broker): <code>redis-server &ndash;port 6382</code></li>
-<li>celery(main process): <code>celery worker &ndash;app xxx.celery &ndash;loglevel=info</code></li>
-<li>celery(beat): <code>celery beat &ndash;app xxx.celery &ndash;loglevel=info</code></li>
-</ol>
-<p>当然，比较好的管理方法是使用supervisor,具体参见博文<a href="http://neo1218.github.io/blog/supervisor/">Python进程管理工具supervisor</a></p>
-<h2 id="flask-celery">更多关于Flask❤️ Celery</h2>
+                <h1 id="neo1218">#neo1218的个人简历(草稿)</h1>
+<blockquote>
+<p>对现在的自己做个了解</p>
+</blockquote>
+<h2 id="_1">##关于我</h2>
+<p>男, 20岁,</p>
 <ul>
-<li><a href="http://blog.miguelgrinberg.com/post/using-celery-with-flask">using-celery-with-flask</a></li>
-<li><a href="http://www.it1me.com/it-answers?id=29670961&amp;s=Kiev&amp;ttl=Flask%2C+blueprints+uses+celery+task+and+got+cycle+import">Flask, blueprints uses celery task and got cycle import</a></li>
+<li>华中师范大学木犀团队后台组组长</li>
+<li><a href="https://github.com/neo1218/">Github主页</a></li>
 </ul>
+<h2 id="_2">##学历</h2>
+<p>2014级华中师范大学软件工程专业本科就读(211)</p>
+<h2 id="_3">##我的标签</h2>
+<ul>
+<li>Pythoner, 二次元, 宅</li>
+</ul>
+<h2 id="_4">##项目经验</h2>
+<h2 id="mana">mana</h2>
+<ul>
+<li>项目标签: python, flask</li>
+<li><a href="https://github.com/neo1218/mana/">项目github主页</a></li>
+</ul>
+<p>the missing startproject command for Flask, simple &amp; fast.<br />
+mana是我初学flask框架时做的一个命令行工具, 用于快速创建自带sql数据库、管理后台的flask项目, 减少重复coding.</p>
+<h2 id="railgun">railgun</h2>
+<ul>
+<li>项目标签: python</li>
+<li><a href="https://github.com/neo1218/railgun/">项目github主页</a></li>
+</ul>
+<p>python静态博客生成器.<br />
+起初博客用hexo. 后来自己搭建博客, 但又不想处理繁重的数据存储和服务器部署(不灵活而且要钱&hellip;), 于是写了这个静态博客生成器. 我的博客就是用railgun静态化部署到github pages上的, 速度很快:).</p>
+<h2 id="progit2-zh">progit2-zh</h2>
+<ul>
+<li>项目标签: git, 翻译</li>
+<li><a href="https://github.com/progit/progit2-zh">项目github主页</a></li>
+</ul>
+<p>大一暑假参加了《progit2》中文版翻译, 至今记得和一群见不了面的人在github上讨论的热火朝天, 早上爬起床-&gt;邮箱轰炸😂  , 参与翻译的2节已经挂到了git官网</p>
+<ul>
+<li><a href="https://git-scm.com/book/zh/v2/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E7%9A%84-Git-%E5%9C%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E6%90%AD%E5%BB%BA-Git">在服务器上搭建Git</a></li>
+<li><a href="https://git-scm.com/book/zh/v2/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E7%9A%84-Git-GitLab">GitLab</a></li>
+</ul>
+<h2 id="muxivim">MuxiVim</h2>
+<ul>
+<li>项目标签: vim</li>
+<li><a href="https://github.com/neo1218/MuxiVim">项目github主页</a></li>
+</ul>
+<p>开源了自己的vim配置. 作为一个vim狂热分子, 虽然一度转向atom, vscode, 但最终还是无法割舍终端+vim的高效开发方式. 目前日常使用tmux+vim coding.</p>
+<h2 id="_5">华师匣子后端</h2>
+<ul>
+<li>项目标签: python, docker, restful api, 爬虫, redis, mongodb</li>
+<li><a href="https://github.com/restccnu/restccnu">项目github主页</a></li>
+</ul>
+<p>华师匣子是木犀团队推出的一款校园通APP, 目前用户2000+.<br />
+华师匣子后端API使用python flask框架编写, 爬虫使用requests+beautifulsoup, 使用redis和mongodb进行数据存储. 涉及模拟登录、定时任务、redis缓存、celery任务队列等诸多后端应用场景. 同时使用docker和docker-compose实现开发、测试、部署环境统一. 使用github-webhook实现自动发版本部署. 架构图如下:<br />
+<img alt="" src="https://cloud.githubusercontent.com/assets/10671733/19296662/fcbfccb6-906f-11e6-8c03-adbe5e3e5ba9.png" /></p>
+<h2 id="uiharu">uiharu</h2>
+<ul>
+<li>项目标签: 操作系统, c, 汇编</li>
+<li><a href="https://github.com/UiharuOS/uiharu">项目github主页</a></li>
+</ul>
+<p>尝试实现的玩具操作系统.</p>
+<h2 id="_6">##技能</h2>
+<h2 id="python">###Python</h2>
+<p>熟悉Python 语言, 发表在segmentfault专栏上的文章<a href="https://segmentfault.com/a/1190000007641519?_ea=1466892">Python开启尾递归优化</a> 收获了2推荐、5收藏.</p>
+<p>熟悉Python web开发, 熟悉Flask框架, 阅读过Flask框架的源码并实现了<a href="https://github.com/Still-not-satisfied-projects/muxi">一个简单的web框架</a>; 发表在segmentfault专栏上的文章<a href="https://segmentfault.com/a/1190000004406179">flask权限管理</a> 收获了3推荐、18收藏、2.7k的浏览量.</p>
+<p>熟悉Python 协程模型, 阅读过asyncio源码, <a href="https://neo1218.github.io/thinking-in-coroutines/">博客纪录thinking in coroutines</a></p>
+<h2 id="_7">###系统编程</h2>
+<p>熟悉操作系统的实现.</p>
+<p>了解服务器C10K的问题的解决方法.</p>
+<h2 id="_8">###并发编程</h2>
+<p>了解事件驱动、协程、多线程、多进程 并发编程模式</p>
+<h2 id="_9">###前端</h2>
+<p>可以使用html、css、js写一些前端页面, 会使用jquery. 我的博客主题就是自己写的.</p>
+<h2 id="_10">##其他</h2>
+<p>日常使用Mac开发, 熟练掌握基于命令行的开发方式.</p>
+<p>能够有效的使用google + stackoverflow 解决问题.</p>
+<p>自学能力强, 所有东西都靠自学. 讨厌学校.</p>
+<p>热爱开源, 积极参与github上的开源项目.</p>
             </div>
         </div>
     </div>
